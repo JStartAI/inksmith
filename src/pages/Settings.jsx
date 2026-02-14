@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLanguage } from '../components/i18n/LanguageContext';
+import GoogleDriveConnector from '../components/backup/GoogleDriveConnector';
 
 export default function Settings() {
   const { t, lang, setLang } = useLanguage();
@@ -76,6 +77,8 @@ export default function Settings() {
             </div>
           </CardContent>
         </Card>
+
+        <GoogleDriveConnector />
       </main>
     </div>
   );

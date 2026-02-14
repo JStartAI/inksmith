@@ -13,6 +13,7 @@ import Editor from '../components/workspace/Editor';
 import Inspector from '../components/workspace/Inspector';
 import CorkboardView from '../components/workspace/CorkboardView';
 import OutlinerView from '../components/workspace/OutlinerView';
+import BackupManager from '../components/backup/BackupManager';
 
 export default function Workspace() {
   const { t } = useLanguage();
@@ -182,6 +183,8 @@ export default function Workspace() {
               {t('compiler.export')}
             </Button>
           </Link>
+
+          <BackupManager projectId={projectId} projectTitle={project?.title || ''} />
 
           <Button
             variant="ghost"
