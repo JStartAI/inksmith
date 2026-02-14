@@ -49,12 +49,20 @@
  */
 import Dashboard from './pages/Dashboard';
 import Workspace from './pages/Workspace';
+import Characters from './pages/Characters';
+import AIForge from './pages/AIForge';
+import Compiler from './pages/Compiler';
+import Settings from './pages/Settings';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
     "Dashboard": Dashboard,
     "Workspace": Workspace,
+    "Characters": Characters,
+    "AIForge": AIForge,
+    "Compiler": Compiler,
+    "Settings": Settings,
 }
 
 export const pagesConfig = {
