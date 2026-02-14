@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Plus, BookOpen, FileText, Globe } from 'lucide-react';
+import { Plus, BookOpen, FileText } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
@@ -10,6 +10,7 @@ import StatsCard from '../components/dashboard/StatsCard';
 import ProjectCard from '../components/dashboard/ProjectCard';
 import EmptyDashboard from '../components/dashboard/EmptyDashboard';
 import NewProjectDialog from '../components/dashboard/NewProjectDialog';
+import LanguageSwitcher from '../components/ui/LanguageSwitcher';
 
 export default function Dashboard() {
   const { t, lang, setLang } = useLanguage();
@@ -76,15 +77,7 @@ export default function Dashboard() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setLang(lang === 'en' ? 'es' : 'en')}
-              className="text-xs gap-1.5 text-[var(--ink-text-secondary)]"
-            >
-              <Globe className="w-3.5 h-3.5" />
-              {lang === 'en' ? 'ES' : 'EN'}
-            </Button>
+            <LanguageSwitcher />
             <Button
               onClick={() => setShowNewProject(true)}
               className="bg-[var(--ink-accent)] hover:bg-[var(--ink-accent-hover)] text-white rounded-xl h-9 px-4 text-sm shadow-sm"
