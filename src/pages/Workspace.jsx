@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
-import { createPageUrl } from './utils';
+import { createPageUrl } from '@/utils';
 import {
   Menu, X, ArrowLeft, Layout, Grid3X3, List, PenLine, Users, Sparkles, Download
 } from 'lucide-react';

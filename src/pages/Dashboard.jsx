@@ -4,7 +4,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Plus, BookOpen, FileText, Globe } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { useNavigate } from 'react-router-dom';
-import { createPageUrl } from './utils';
+import { createPageUrl } from '@/utils';
 import { useLanguage } from '../components/i18n/LanguageContext';
 import StatsCard from '../components/dashboard/StatsCard';
 import ProjectCard from '../components/dashboard/ProjectCard';
