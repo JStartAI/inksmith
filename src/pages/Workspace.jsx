@@ -125,40 +125,47 @@ export default function Workspace() {
   return (
     <div className="h-screen flex flex-col bg-[var(--ink-bg)] overflow-hidden">
       {/* Toolbar */}
-      <header className="h-12 flex items-center justify-between px-3 border-b border-[var(--ink-border)] bg-white/90 backdrop-blur-xl flex-shrink-0">
-        <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" className="h-8 w-8 md:hidden" onClick={() => setMobileSidebar(!mobileSidebar)}>
+      <header className="h-11 flex items-center justify-between px-2 flex-shrink-0" style={{ background: '#2c2c2e', borderBottom: '1px solid #1a1a1a' }}>
+        <div className="flex items-center gap-1">
+          <button
+            className="p-1.5 rounded hover:bg-white/10 text-[#aaa] hover:text-white transition-colors md:hidden"
+            onClick={() => setMobileSidebar(!mobileSidebar)}
+          >
             <Menu className="w-4 h-4" />
-          </Button>
-          <Button variant="ghost" size="icon" className="h-8 w-8 hidden md:flex" onClick={() => setSidebarOpen(!sidebarOpen)}>
+          </button>
+          <button
+            className="p-1.5 rounded hover:bg-white/10 text-[#aaa] hover:text-white transition-colors hidden md:flex"
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+          >
             <Menu className="w-4 h-4" />
-          </Button>
+          </button>
           <Link to={createPageUrl('Dashboard')}>
-            <Button variant="ghost" size="sm" className="h-8 text-xs gap-1.5">
+            <button className="flex items-center gap-1 px-2 py-1 rounded hover:bg-white/10 text-[#aaa] hover:text-white text-[12px] transition-colors">
               <ArrowLeft className="w-3 h-3" />
               {t('common.back')}
-            </Button>
+            </button>
           </Link>
-          <span className="text-xs text-[var(--ink-text-muted)] hidden md:inline">/ {project?.title}</span>
+          <span className="text-[12px] text-[#555] hidden md:inline ml-1">/ {project?.title}</span>
         </div>
 
         <div className="flex items-center gap-1">
-          {/* View mode switcher */}
-          <div className="flex items-center bg-[var(--ink-bg)] rounded-lg p-0.5 mr-2">
+          {/* View mode */}
+          <div className="flex items-center rounded overflow-hidden mr-2" style={{ border: '1px solid #444' }}>
             {[
               { mode: 'editor', icon: PenLine, label: t('workspace.editor') },
               { mode: 'corkboard', icon: Grid3X3, label: t('workspace.corkboard') },
               { mode: 'outliner', icon: List, label: t('workspace.outliner') },
-            ].map(({ mode, icon: Icon, label }) => (
+            ].map(({ mode, icon: Icon, label }, i) => (
               <button
                 key={mode}
                 onClick={() => setViewMode(mode)}
-                className={`p-1.5 rounded-md transition-all ${
-                  viewMode === mode
-                    ? 'bg-white shadow-sm text-[var(--ink-accent)]'
-                    : 'text-[var(--ink-text-muted)] hover:text-[var(--ink-text-secondary)]'
-                }`}
                 title={label}
+                className="p-1.5 transition-colors"
+                style={{
+                  background: viewMode === mode ? '#2a5fa8' : 'transparent',
+                  color: viewMode === mode ? '#fff' : '#888',
+                  borderRight: i < 2 ? '1px solid #444' : 'none',
+                }}
               >
                 <Icon className="w-3.5 h-3.5" />
               </button>
@@ -166,34 +173,33 @@ export default function Workspace() {
           </div>
 
           <Link to={createPageUrl('Characters') + `?projectId=${projectId}`}>
-            <Button variant="ghost" size="sm" className="h-8 text-xs gap-1.5 hidden sm:flex">
+            <button className="flex items-center gap-1 px-2 py-1 rounded hover:bg-white/10 text-[#aaa] hover:text-white text-[12px] transition-colors hidden sm:flex">
               <Users className="w-3 h-3" />
               {t('workspace.characters')}
-            </Button>
+            </button>
           </Link>
           <Link to={createPageUrl('AIForge') + `?projectId=${projectId}`}>
-            <Button variant="ghost" size="sm" className="h-8 text-xs gap-1.5 hidden sm:flex">
+            <button className="flex items-center gap-1 px-2 py-1 rounded hover:bg-white/10 text-[#aaa] hover:text-white text-[12px] transition-colors hidden sm:flex">
               <Sparkles className="w-3 h-3" />
               {t('aiforge.title')}
-            </Button>
+            </button>
           </Link>
           <Link to={createPageUrl('Compiler') + `?projectId=${projectId}`}>
-            <Button variant="ghost" size="sm" className="h-8 text-xs gap-1.5 hidden sm:flex">
+            <button className="flex items-center gap-1 px-2 py-1 rounded hover:bg-white/10 text-[#aaa] hover:text-white text-[12px] transition-colors hidden sm:flex">
               <Download className="w-3 h-3" />
               {t('compiler.export')}
-            </Button>
+            </button>
           </Link>
 
           <BackupManager projectId={projectId} projectTitle={project?.title || ''} />
 
-          <Button
-            variant="ghost"
-            size="icon"
-            className={`h-8 w-8 ${inspectorOpen ? 'text-[var(--ink-accent)]' : ''}`}
+          <button
+            className="p-1.5 rounded hover:bg-white/10 transition-colors"
+            style={{ color: inspectorOpen ? '#60a5fa' : '#888' }}
             onClick={() => setInspectorOpen(!inspectorOpen)}
           >
             <Layout className="w-3.5 h-3.5" />
-          </Button>
+          </button>
         </div>
       </header>
 
