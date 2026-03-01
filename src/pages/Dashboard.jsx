@@ -13,11 +13,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 const statusColors = {
-  planning:  { bg: '#2a2218', text: '#fbbf24' },
-  drafting:  { bg: '#1a2844', text: '#60a5fa' },
-  revising:  { bg: '#27183a', text: '#a78bfa' },
-  editing:   { bg: '#2a1e16', text: '#fb923c' },
-  complete:  { bg: '#152a1e', text: '#34d399' },
+  planning:  { bg: '#3a3620', text: '#c9aa60' },
+  drafting:  { bg: '#22303a', text: '#7ba7bc' },
+  revising:  { bg: '#302240', text: '#9a88c0' },
+  editing:   { bg: '#3a2c20', text: '#c99060' },
+  complete:  { bg: '#1e3028', text: '#7aaa88' },
 };
 
 export default function Dashboard() {
@@ -70,9 +70,9 @@ export default function Dashboard() {
   const totalWords = projects.reduce((sum, p) => sum + (p.word_count || 0), 0);
 
   return (
-    <div className="min-h-screen" style={{ background: '#0d0d10' }}>
+    <div className="min-h-screen" style={{ background: '#2a2d2e' }}>
       {/* Header */}
-      <header style={{ background: 'rgba(13,13,16,0.85)', borderBottom: '1px solid #1e1e28', backdropFilter: 'blur(12px)' }} className="sticky top-0 z-30">
+      <header style={{ background: 'rgba(42,45,46,0.92)', borderBottom: '1px solid #404446', backdropFilter: 'blur(12px)' }} className="sticky top-0 z-30">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #4f7ef7, #8b5cf6)' }}>
@@ -93,7 +93,7 @@ export default function Dashboard() {
             <button
               onClick={() => setShowNewProject(true)}
               className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-white text-[13px] font-medium transition-all hover:opacity-90 active:scale-95"
-              style={{ background: 'linear-gradient(135deg, #4f7ef7, #6d4ff7)' }}
+              style={{ background: 'linear-gradient(135deg, #5a8fa8, #7a72b0)' }}
             >
               <Plus className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">{t('dashboard.newProject')}</span>
@@ -121,18 +121,18 @@ export default function Dashboard() {
                 { label: lang === 'es' ? 'Palabras totales' : 'Total words', value: totalWords.toLocaleString(), icon: FileText },
                 { label: lang === 'es' ? 'Promedio' : 'Average', value: (projects.length ? Math.round(totalWords / projects.length) : 0).toLocaleString(), icon: Clock },
               ].map(({ label, value, icon: Icon }) => (
-                <div key={label} className="rounded-xl px-4 py-3" style={{ background: '#16161a', border: '1px solid #1e1e28' }}>
+                <div key={label} className="rounded-xl px-4 py-3" style={{ background: '#313538', border: '1px solid #404446' }}>
                   <div className="flex items-center gap-2 mb-1">
-                    <Icon className="w-3 h-3 text-[#4f7ef7]" />
-                    <p className="text-[10px] text-[#52526a] uppercase tracking-wider">{label}</p>
+                    <Icon className="w-3 h-3 text-[#7ba7bc]" />
+                    <p className="text-[10px] text-[#6e6a64] uppercase tracking-wider">{label}</p>
                   </div>
-                  <p className="text-[22px] font-bold text-[#e2e2ea] tabular-nums leading-none">{value}</p>
+                  <p className="text-[22px] font-bold text-[#d8d4cc] tabular-nums leading-none">{value}</p>
                 </div>
               ))}
             </div>
 
             {/* Section title */}
-            <p className="text-[11px] font-semibold text-[#52526a] uppercase tracking-widest mb-4">
+            <p className="text-[11px] font-semibold text-[#6e6a64] uppercase tracking-widest mb-4">
               {t('dashboard.projects')}
             </p>
 
