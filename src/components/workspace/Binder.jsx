@@ -34,8 +34,8 @@ function TreeNode({ doc, documents, selectedId, onSelect, onAddChild, onDelete, 
       <div
         className={`group flex items-center gap-1.5 py-[5px] px-2 cursor-pointer transition-colors text-sm rounded-sm ${
           isSelected
-            ? 'text-white'
-            : 'text-[#b0aca4] hover:text-[#d8d4cc]'
+            ? 'bg-[#4a7a96]/40 text-white'
+            : 'text-[#b0aca4] hover:bg-[#333638] hover:text-[#d8d4cc]'
         }`}
         style={{ paddingLeft: `${depth * 14 + 8}px` }}
         onClick={() => {
@@ -55,7 +55,7 @@ function TreeNode({ doc, documents, selectedId, onSelect, onAddChild, onDelete, 
           {doc.title}
         </span>
         {doc.word_count > 0 && !isFolder && (
-          <span className={`text-[10px] tabular-nums flex-shrink-0 ${isSelected ? 'text-blue-200' : 'text-[#555]'}`}>
+          <span className={`text-[10px] tabular-nums flex-shrink-0 ${isSelected ? 'text-blue-100' : 'text-[#6e6a64]'}`}>
             {doc.word_count}
           </span>
         )}
