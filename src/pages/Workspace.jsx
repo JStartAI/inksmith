@@ -4,7 +4,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import {
-  Menu, X, ArrowLeft, Layout, Grid3X3, List, PenLine, Users, Sparkles, Download
+  Menu, X, ArrowLeft, Layout, Grid3X3, List, PenLine, Users, Sparkles, Download, CheckSquare
 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { useLanguage } from '../components/i18n/LanguageContext';
@@ -14,6 +14,7 @@ import Inspector from '../components/workspace/Inspector';
 import CorkboardView from '../components/workspace/CorkboardView';
 import OutlinerView from '../components/workspace/OutlinerView';
 import BackupManager from '../components/backup/BackupManager';
+import CorrectionMode from '../components/workspace/CorrectionMode';
 
 export default function Workspace() {
   const { t } = useLanguage();
@@ -155,6 +156,7 @@ export default function Workspace() {
               { mode: 'editor', icon: PenLine, label: t('workspace.editor') },
               { mode: 'corkboard', icon: Grid3X3, label: t('workspace.corkboard') },
               { mode: 'outliner', icon: List, label: t('workspace.outliner') },
+              { mode: 'correction', icon: CheckSquare, label: 'Corrección' },
             ].map(({ mode, icon: Icon, label }, i) => (
               <button
                 key={mode}
@@ -164,7 +166,7 @@ export default function Workspace() {
                 style={{
                   background: viewMode === mode ? '#2a5fa8' : 'transparent',
                   color: viewMode === mode ? '#fff' : '#888',
-                  borderRight: i < 2 ? '1px solid #444' : 'none',
+                  borderRight: i < 3 ? '1px solid #444' : 'none',
                 }}
               >
                 <Icon className="w-3.5 h-3.5" />
@@ -250,6 +252,11 @@ export default function Workspace() {
               parentId={activeParentId}
               onSelect={handleSelectDoc}
               selectedId={selectedDoc?.id}
+            />
+          )}
+          {viewMode === 'correction' && (
+            <CorrectionMode
+              document={selectedDoc?.type === 'document' ? selectedDoc : null}
             />
           )}
         </div>
