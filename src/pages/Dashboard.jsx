@@ -6,6 +6,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { useLanguage } from '../components/i18n/LanguageContext';
 import NewProjectDialog from '../components/dashboard/NewProjectDialog';
+import OnboardingGate from '../components/dashboard/OnboardingGate';
 import LanguageSwitcher from '../components/ui/LanguageSwitcher';
 import moment from 'moment';
 import {
