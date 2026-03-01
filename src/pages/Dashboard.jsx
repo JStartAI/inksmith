@@ -86,7 +86,7 @@ export default function Dashboard() {
           <div className="flex items-center gap-2">
             <LanguageSwitcher />
             <Link to={createPageUrl('Settings')}>
-              <button className="p-2 rounded-lg text-[#52526a] hover:text-[#8888a2] hover:bg-[#1a1a22] transition-colors">
+              <button className="p-2 rounded-lg text-[#6e6a64] hover:text-[#9e9a94] hover:bg-[#393c3e] transition-colors">
                 <Settings className="w-4 h-4" />
               </button>
             </Link>
