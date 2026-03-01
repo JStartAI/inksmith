@@ -71,6 +71,7 @@ export default function Dashboard() {
   const totalWords = projects.reduce((sum, p) => sum + (p.word_count || 0), 0);
 
   return (
+    <OnboardingGate>
     <div className="min-h-screen relative" style={{ background: '#171a1b' }}>
       {/* Iluminación por zonas — como luz de linterna/vela */}
       <div style={{
@@ -172,6 +173,7 @@ export default function Dashboard() {
         onCreate={(data) => createProject.mutate(data)}
       />
     </div>
+    </OnboardingGate>
   );
 }
 
