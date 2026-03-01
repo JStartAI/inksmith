@@ -8,10 +8,10 @@ export default function Layout({ children }) {
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
         
         :root {
-          --ink-bg: #2a2d2e;
-          --ink-surface: #313538;
-          --ink-surface-hover: #393c3e;
-          --ink-border: #404446;
+          --ink-bg: #1e2122;
+          --ink-surface: #272b2c;
+          --ink-surface-hover: #2f3334;
+          --ink-border: #363a3b;
           --ink-border-subtle: #383b3c;
           --ink-text: #d8d4cc;
           --ink-text-secondary: #9e9a94;
@@ -36,6 +36,16 @@ export default function Layout({ children }) {
           -moz-osx-font-smoothing: grayscale;
         }
 
+        /* Subtle vignette + top-center light source */
+        body::after {
+          content: '';
+          position: fixed;
+          inset: 0;
+          pointer-events: none;
+          z-index: 0;
+          background: radial-gradient(ellipse 80% 60% at 50% 10%, rgba(90,110,115,0.10) 0%, transparent 70%);
+        }
+
         /* Subtle chalk/slate texture overlay */
         body::before {
           content: '';
@@ -43,7 +53,7 @@ export default function Layout({ children }) {
           inset: 0;
           pointer-events: none;
           z-index: 0;
-          opacity: 0.06;
+          opacity: 0.05;
           background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
           background-repeat: repeat;
           background-size: 180px 180px;
