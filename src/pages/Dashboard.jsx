@@ -70,7 +70,7 @@ export default function Dashboard() {
   const totalWords = projects.reduce((sum, p) => sum + (p.word_count || 0), 0);
 
   return (
-    <div className="min-h-screen" style={{ background: 'radial-gradient(ellipse 90% 55% at 50% 8%, #2d3638 0%, #1e2122 55%)' }}>
+    <div className="min-h-screen" style={{ background: '#171a1b' }}>
       {/* Header */}
       <header style={{ background: 'rgba(30,33,34,0.96)', borderBottom: '1px solid #363a3b', backdropFilter: 'blur(12px)' }} className="sticky top-0 z-30">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
@@ -103,7 +103,7 @@ export default function Dashboard() {
         </div>
       </header>
 
-      <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8" style={{ background: 'radial-gradient(ellipse 70% 50% at 50% 0%, rgba(100,130,140,0.07) 0%, transparent 65%)' }}>
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
         {isLoading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
             {[1,2,3].map(i => (
