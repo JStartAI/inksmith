@@ -107,7 +107,7 @@ export default function Dashboard() {
         {isLoading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
             {[1,2,3].map(i => (
-              <div key={i} className="h-40 rounded-2xl animate-pulse" style={{ background: '#16161a' }} />
+              <div key={i} className="h-40 rounded-2xl animate-pulse" style={{ background: '#313538' }} />
             ))}
           </div>
         ) : projects.length === 0 ? (
@@ -168,12 +168,12 @@ function ProjectCard({ project, onDelete }) {
   return (
     <div
       className="group relative rounded-2xl p-5 transition-all duration-200 hover:translate-y-[-2px] cursor-pointer"
-      style={{ background: '#16161a', border: '1px solid #1e1e28' }}
+      style={{ background: '#313538', border: '1px solid #404446' }}
     >
       <Link to={createPageUrl('Workspace') + `?projectId=${project.id}`} className="block">
         <div className="flex items-start justify-between mb-3">
-          <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: '#1a2844' }}>
-            <BookOpen className="w-4 h-4 text-[#4f7ef7]" />
+          <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: '#2e3d45' }}>
+            <BookOpen className="w-4 h-4 text-[#7ba7bc]" />
           </div>
           <div className="flex items-center gap-2">
             <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full capitalize" style={{ background: status.bg, color: status.text }}>
@@ -182,14 +182,14 @@ function ProjectCard({ project, onDelete }) {
           </div>
         </div>
 
-        <h3 className="text-[14px] font-semibold text-[#e2e2ea] mb-1 line-clamp-1 group-hover:text-[#4f7ef7] transition-colors">
+        <h3 className="text-[14px] font-semibold text-[#d8d4cc] mb-1 line-clamp-1 group-hover:text-[#7ba7bc] transition-colors">
           {project.title}
         </h3>
         {project.description && (
-          <p className="text-[12px] text-[#52526a] line-clamp-2 mb-3 leading-relaxed">{project.description}</p>
+          <p className="text-[12px] text-[#6e6a64] line-clamp-2 mb-3 leading-relaxed">{project.description}</p>
         )}
 
-        <div className="flex items-center gap-3 text-[11px] text-[#52526a]">
+        <div className="flex items-center gap-3 text-[11px] text-[#6e6a64]">
           <span className="flex items-center gap-1">
             <FileText className="w-3 h-3" />
             {(project.word_count || 0).toLocaleString()}w
@@ -198,19 +198,19 @@ function ProjectCard({ project, onDelete }) {
             <Clock className="w-3 h-3" />
             {moment(project.updated_date).fromNow()}
           </span>
-          <span className="ml-auto text-[10px] text-[#3a3a52]">
+          <span className="ml-auto text-[10px] text-[#6e6a64]">
             {project.language === 'es' ? '🇪🇸' : '🇬🇧'}
           </span>
         </div>
 
         {project.target_word_count > 0 && (
           <div className="mt-3">
-            <div className="h-1 rounded-full overflow-hidden" style={{ background: '#1e1e28' }}>
+            <div className="h-1 rounded-full overflow-hidden" style={{ background: '#404446' }}>
               <div
                 className="h-full rounded-full transition-all duration-500"
                 style={{
                   width: `${Math.min(100, ((project.word_count || 0) / project.target_word_count) * 100)}%`,
-                  background: 'linear-gradient(90deg, #4f7ef7, #8b5cf6)',
+                  background: 'linear-gradient(90deg, #5a8fa8, #7a72b0)',
                 }}
               />
             </div>
@@ -222,7 +222,7 @@ function ProjectCard({ project, onDelete }) {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <button
-            className="absolute top-4 right-4 p-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity text-[#52526a] hover:text-[#e2e2ea] hover:bg-[#1e1e28]"
+            className="absolute top-4 right-4 p-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity text-[#6e6a64] hover:text-[#d8d4cc] hover:bg-[#404446]"
             onClick={(e) => e.stopPropagation()}
           >
             <MoreHorizontal className="w-4 h-4" />
@@ -241,15 +241,15 @@ function ProjectCard({ project, onDelete }) {
 function EmptyState({ onNew, t }) {
   return (
     <div className="flex flex-col items-center justify-center py-24 px-6 text-center">
-      <div className="w-20 h-20 rounded-3xl flex items-center justify-center mb-6" style={{ background: 'linear-gradient(135deg, #1a2844, #27183a)' }}>
-        <BookOpen className="w-9 h-9 text-[#4f7ef7]" />
+      <div className="w-20 h-20 rounded-3xl flex items-center justify-center mb-6" style={{ background: 'linear-gradient(135deg, #2e3d45, #302240)' }}>
+        <BookOpen className="w-9 h-9 text-[#7ba7bc]" />
       </div>
-      <h2 className="text-xl font-bold text-[#e2e2ea] mb-2">{t('dashboard.emptyTitle')}</h2>
-      <p className="text-[#52526a] text-sm mb-8 max-w-xs leading-relaxed">{t('dashboard.emptySubtitle')}</p>
+      <h2 className="text-xl font-bold text-[#d8d4cc] mb-2">{t('dashboard.emptyTitle')}</h2>
+      <p className="text-[#6e6a64] text-sm mb-8 max-w-xs leading-relaxed">{t('dashboard.emptySubtitle')}</p>
       <button
         onClick={onNew}
         className="flex items-center gap-2 px-6 py-3 rounded-xl text-white font-medium transition-all hover:opacity-90 active:scale-95"
-        style={{ background: 'linear-gradient(135deg, #4f7ef7, #6d4ff7)' }}
+        style={{ background: 'linear-gradient(135deg, #5a8fa8, #7a72b0)' }}
       >
         <Plus className="w-4 h-4" />
         {t('dashboard.newProject')}
