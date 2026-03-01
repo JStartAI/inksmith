@@ -8,24 +8,24 @@ export default function Layout({ children }) {
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
         
         :root {
-          --ink-bg: #0d0d10;
-          --ink-surface: #16161a;
-          --ink-surface-hover: #1e1e24;
-          --ink-border: #25252e;
-          --ink-border-subtle: #1c1c24;
-          --ink-text: #e2e2ea;
-          --ink-text-secondary: #8888a2;
-          --ink-text-muted: #52526a;
-          --ink-accent: #4f7ef7;
-          --ink-accent-hover: #3a6ae8;
-          --ink-accent-light: #1a2844;
-          --ink-red: #f87171;
-          --ink-orange: #fb923c;
-          --ink-yellow: #fbbf24;
-          --ink-green: #34d399;
-          --ink-blue: #4f7ef7;
-          --ink-purple: #a78bfa;
-          --ink-warm: #1a1a22;
+          --ink-bg: #2a2d2e;
+          --ink-surface: #313538;
+          --ink-surface-hover: #393c3e;
+          --ink-border: #404446;
+          --ink-border-subtle: #383b3c;
+          --ink-text: #d8d4cc;
+          --ink-text-secondary: #9e9a94;
+          --ink-text-muted: #6e6a64;
+          --ink-accent: #7ba7bc;
+          --ink-accent-hover: #6494aa;
+          --ink-accent-light: #2e3d45;
+          --ink-red: #c97a7a;
+          --ink-orange: #c99060;
+          --ink-yellow: #c9aa60;
+          --ink-green: #7aaa88;
+          --ink-blue: #7ba7bc;
+          --ink-purple: #9a88c0;
+          --ink-warm: #2e3132;
         }
         
         body {
@@ -36,17 +36,17 @@ export default function Layout({ children }) {
           -moz-osx-font-smoothing: grayscale;
         }
 
-        /* Subtle noise texture overlay */
+        /* Subtle chalk/slate texture overlay */
         body::before {
           content: '';
           position: fixed;
           inset: 0;
           pointer-events: none;
           z-index: 0;
-          opacity: 0.025;
-          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+          opacity: 0.06;
+          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
           background-repeat: repeat;
-          background-size: 128px 128px;
+          background-size: 180px 180px;
         }
         
         .font-serif {
