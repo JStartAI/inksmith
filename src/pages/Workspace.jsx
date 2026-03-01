@@ -123,7 +123,7 @@ export default function Workspace() {
   }
 
   return (
-    <div className="h-screen flex flex-col bg-[var(--ink-bg)] overflow-hidden">
+    <div className="h-screen flex flex-col overflow-hidden" style={{ background: '#1c1c1e' }}>
       {/* Toolbar */}
       <header className="h-11 flex items-center justify-between px-2 flex-shrink-0" style={{ background: '#2c2c2e', borderBottom: '1px solid #1a1a1a' }}>
         <div className="flex items-center gap-1">
