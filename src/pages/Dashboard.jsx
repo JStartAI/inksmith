@@ -79,8 +79,8 @@ export default function Dashboard() {
               <span className="text-white font-bold text-xs tracking-tight">IS</span>
             </div>
             <div className="hidden sm:block">
-              <h1 className="text-[15px] font-bold text-[#e2e2ea] tracking-tight">InkSmith</h1>
-              <p className="text-[9px] text-[#52526a] tracking-widest uppercase">{t('app.tagline')}</p>
+              <h1 className="text-[15px] font-bold text-[#d8d4cc] tracking-tight">InkSmith</h1>
+              <p className="text-[9px] text-[#6e6a64] tracking-widest uppercase">{t('app.tagline')}</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
