@@ -10,18 +10,18 @@ import { useLanguage } from '../i18n/LanguageContext';
 import moment from 'moment';
 
 const statusColors = {
-  planning: 'bg-yellow-100 text-yellow-700',
-  drafting: 'bg-blue-100 text-blue-700',
-  revising: 'bg-purple-100 text-purple-700',
-  editing: 'bg-orange-100 text-orange-700',
-  complete: 'bg-green-100 text-green-700',
+  planning:  { bg: '#3a3620', text: '#c9aa60' },
+  drafting:  { bg: '#1e2d38', text: '#7ba7bc' },
+  revising:  { bg: '#2a1e3a', text: '#9a88c0' },
+  editing:   { bg: '#38281a', text: '#c99060' },
+  complete:  { bg: '#1a2c22', text: '#7aaa88' },
 };
 
 export default function ProjectCard({ project, onDelete }) {
   const { t } = useLanguage();
 
   return (
-    <div className="group relative bg-white rounded-2xl border border-[var(--ink-border)] p-6 hover:shadow-lg hover:border-[var(--ink-text-muted)] transition-all duration-300 animate-fadeIn">
+    <div className="group relative rounded-2xl p-6 transition-all duration-300 animate-fadeIn hover:translate-y-[-2px]" style={{ background: '#272b2c', border: '1px solid #363a3b' }}>
       <div className="flex items-start justify-between mb-4">
         <Link
           to={createPageUrl('Workspace') + `?projectId=${project.id}`}
@@ -71,7 +71,7 @@ export default function ProjectCard({ project, onDelete }) {
         </div>
 
         <div className="mt-4 flex items-center gap-2">
-          <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full ${statusColors[project.status] || statusColors.planning}`}>
+          <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full capitalize" style={{ background: (statusColors[project.status] || statusColors.planning).bg, color: (statusColors[project.status] || statusColors.planning).text }}>
             {project.status?.replace(/_/g, ' ') || 'planning'}
           </span>
           <span className="text-[10px] text-[var(--ink-text-muted)] uppercase tracking-wider">
