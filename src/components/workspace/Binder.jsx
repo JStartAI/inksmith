@@ -143,12 +143,12 @@ export default function Binder({ documents, selectedId, onSelect, onAddChild, on
               key={doc.id}
               className={`flex items-center gap-2 py-1.5 px-3 rounded-sm cursor-pointer text-[12.5px] ${
                 selectedId === doc.id
-                  ? 'bg-[#2a5fa8] text-white'
-                  : 'text-[#c8c8cc] hover:bg-[#2a2a2e]'
+                  ? 'bg-[#4a7a96] text-white'
+                  : 'text-[#b0aca4] hover:bg-[#333638] hover:text-[#d8d4cc]'
               }`}
               onClick={() => { onSelect(doc); setSearch(''); }}
             >
-              <FileText className="w-3.5 h-3.5 text-[#888]" />
+              <FileText className="w-3.5 h-3.5 text-[#6e6a64]" />
               <span className="truncate">{doc.title}</span>
             </div>
           ))
