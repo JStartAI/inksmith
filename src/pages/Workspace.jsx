@@ -124,34 +124,34 @@ export default function Workspace() {
   }
 
   return (
-    <div className="h-screen flex flex-col overflow-hidden" style={{ background: '#1c1c1e' }}>
+    <div className="h-screen flex flex-col overflow-hidden" style={{ background: '#2a2d2e' }}>
       {/* Toolbar */}
-      <header className="h-11 flex items-center justify-between px-2 flex-shrink-0" style={{ background: '#2c2c2e', borderBottom: '1px solid #1a1a1a' }}>
+      <header className="h-11 flex items-center justify-between px-2 flex-shrink-0" style={{ background: '#313538', borderBottom: '1px solid #404446' }}>
         <div className="flex items-center gap-1">
           <button
-            className="p-1.5 rounded hover:bg-white/10 text-[#aaa] hover:text-white transition-colors md:hidden"
+            className="p-1.5 rounded hover:bg-black/10 text-[#9e9a94] hover:text-[#d8d4cc] transition-colors md:hidden"
             onClick={() => setMobileSidebar(!mobileSidebar)}
           >
             <Menu className="w-4 h-4" />
           </button>
           <button
-            className="p-1.5 rounded hover:bg-white/10 text-[#aaa] hover:text-white transition-colors hidden md:flex"
+            className="p-1.5 rounded hover:bg-black/10 text-[#9e9a94] hover:text-[#d8d4cc] transition-colors hidden md:flex"
             onClick={() => setSidebarOpen(!sidebarOpen)}
           >
             <Menu className="w-4 h-4" />
           </button>
           <Link to={createPageUrl('Dashboard')}>
-            <button className="flex items-center gap-1 px-2 py-1 rounded hover:bg-white/10 text-[#aaa] hover:text-white text-[12px] transition-colors">
+            <button className="flex items-center gap-1 px-2 py-1 rounded hover:bg-black/10 text-[#9e9a94] hover:text-[#d8d4cc] text-[12px] transition-colors">
               <ArrowLeft className="w-3 h-3" />
               {t('common.back')}
             </button>
           </Link>
-          <span className="text-[12px] text-[#555] hidden md:inline ml-1">/ {project?.title}</span>
+          <span className="text-[12px] text-[#6e6a64] hidden md:inline ml-1">/ {project?.title}</span>
         </div>
 
         <div className="flex items-center gap-1">
           {/* View mode */}
-          <div className="flex items-center rounded overflow-hidden mr-2" style={{ border: '1px solid #444' }}>
+          <div className="flex items-center rounded overflow-hidden mr-2" style={{ border: '1px solid #505558' }}>
             {[
               { mode: 'editor', icon: PenLine, label: t('workspace.editor') },
               { mode: 'corkboard', icon: Grid3X3, label: t('workspace.corkboard') },
@@ -164,9 +164,9 @@ export default function Workspace() {
                 title={label}
                 className="p-1.5 transition-colors"
                 style={{
-                  background: viewMode === mode ? '#2a5fa8' : 'transparent',
-                  color: viewMode === mode ? '#fff' : '#888',
-                  borderRight: i < 3 ? '1px solid #444' : 'none',
+                  background: viewMode === mode ? '#5a8fa8' : 'transparent',
+                  color: viewMode === mode ? '#fff' : '#9e9a94',
+                  borderRight: i < 3 ? '1px solid #505558' : 'none',
                 }}
               >
                 <Icon className="w-3.5 h-3.5" />
@@ -175,19 +175,19 @@ export default function Workspace() {
           </div>
 
           <Link to={createPageUrl('Characters') + `?projectId=${projectId}`}>
-            <button className="flex items-center gap-1 px-2 py-1 rounded hover:bg-white/10 text-[#aaa] hover:text-white text-[12px] transition-colors hidden sm:flex">
+            <button className="flex items-center gap-1 px-2 py-1 rounded hover:bg-black/10 text-[#9e9a94] hover:text-[#d8d4cc] text-[12px] transition-colors hidden sm:flex">
               <Users className="w-3 h-3" />
               {t('workspace.characters')}
             </button>
           </Link>
           <Link to={createPageUrl('AIForge') + `?projectId=${projectId}`}>
-            <button className="flex items-center gap-1 px-2 py-1 rounded hover:bg-white/10 text-[#aaa] hover:text-white text-[12px] transition-colors hidden sm:flex">
+            <button className="flex items-center gap-1 px-2 py-1 rounded hover:bg-black/10 text-[#9e9a94] hover:text-[#d8d4cc] text-[12px] transition-colors hidden sm:flex">
               <Sparkles className="w-3 h-3" />
               {t('aiforge.title')}
             </button>
           </Link>
           <Link to={createPageUrl('Compiler') + `?projectId=${projectId}`}>
-            <button className="flex items-center gap-1 px-2 py-1 rounded hover:bg-white/10 text-[#aaa] hover:text-white text-[12px] transition-colors hidden sm:flex">
+            <button className="flex items-center gap-1 px-2 py-1 rounded hover:bg-black/10 text-[#9e9a94] hover:text-[#d8d4cc] text-[12px] transition-colors hidden sm:flex">
               <Download className="w-3 h-3" />
               {t('compiler.export')}
             </button>
@@ -197,7 +197,7 @@ export default function Workspace() {
 
           <button
             className="p-1.5 rounded hover:bg-white/10 transition-colors"
-            style={{ color: inspectorOpen ? '#60a5fa' : '#888' }}
+            style={{ color: inspectorOpen ? '#7ba7bc' : '#9e9a94' }}
             onClick={() => setInspectorOpen(!inspectorOpen)}
           >
             <Layout className="w-3.5 h-3.5" />
