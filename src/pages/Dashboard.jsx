@@ -70,9 +70,9 @@ export default function Dashboard() {
   const totalWords = projects.reduce((sum, p) => sum + (p.word_count || 0), 0);
 
   return (
-    <div className="min-h-screen" style={{ background: '#2a2d2e' }}>
+    <div className="min-h-screen" style={{ background: '#1e2122' }}>
       {/* Header */}
-      <header style={{ background: 'rgba(42,45,46,0.92)', borderBottom: '1px solid #404446', backdropFilter: 'blur(12px)' }} className="sticky top-0 z-30">
+      <header style={{ background: 'rgba(30,33,34,0.96)', borderBottom: '1px solid #363a3b', backdropFilter: 'blur(12px)' }} className="sticky top-0 z-30">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #5a8fa8, #7a72b0)' }}>
@@ -107,7 +107,7 @@ export default function Dashboard() {
         {isLoading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
             {[1,2,3].map(i => (
-              <div key={i} className="h-40 rounded-2xl animate-pulse" style={{ background: '#313538' }} />
+              <div key={i} className="h-40 rounded-2xl animate-pulse" style={{ background: '#272b2c' }} />
             ))}
           </div>
         ) : projects.length === 0 ? (
@@ -121,7 +121,7 @@ export default function Dashboard() {
                 { label: lang === 'es' ? 'Palabras totales' : 'Total words', value: totalWords.toLocaleString(), icon: FileText },
                 { label: lang === 'es' ? 'Promedio' : 'Average', value: (projects.length ? Math.round(totalWords / projects.length) : 0).toLocaleString(), icon: Clock },
               ].map(({ label, value, icon: Icon }) => (
-                <div key={label} className="rounded-xl px-4 py-3" style={{ background: '#313538', border: '1px solid #404446' }}>
+                <div key={label} className="rounded-xl px-4 py-3" style={{ background: '#272b2c', border: '1px solid #363a3b' }}>
                   <div className="flex items-center gap-2 mb-1">
                     <Icon className="w-3 h-3 text-[#7ba7bc]" />
                     <p className="text-[10px] text-[#6e6a64] uppercase tracking-wider">{label}</p>
