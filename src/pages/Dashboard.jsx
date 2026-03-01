@@ -70,7 +70,16 @@ export default function Dashboard() {
   const totalWords = projects.reduce((sum, p) => sum + (p.word_count || 0), 0);
 
   return (
-    <div className="min-h-screen" style={{ background: '#171a1b' }}>
+    <div className="min-h-screen relative" style={{ background: '#171a1b' }}>
+      {/* Zona de iluminación: foco suave top-center + acento lateral */}
+      <div style={{
+        position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 0,
+        background: [
+          'radial-gradient(ellipse 55% 35% at 50% 0%, rgba(90,143,168,0.13) 0%, transparent 70%)',
+          'radial-gradient(ellipse 30% 40% at 90% 30%, rgba(122,114,176,0.07) 0%, transparent 65%)',
+          'radial-gradient(ellipse 25% 30% at 10% 70%, rgba(90,143,168,0.05) 0%, transparent 60%)',
+        ].join(', ')
+      }} />
       {/* Header */}
       <header style={{ background: 'rgba(30,33,34,0.96)', borderBottom: '1px solid #363a3b', backdropFilter: 'blur(12px)' }} className="sticky top-0 z-30">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
