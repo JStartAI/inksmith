@@ -75,7 +75,7 @@ export default function Dashboard() {
       <header style={{ background: 'rgba(42,45,46,0.92)', borderBottom: '1px solid #404446', backdropFilter: 'blur(12px)' }} className="sticky top-0 z-30">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #4f7ef7, #8b5cf6)' }}>
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #5a8fa8, #7a72b0)' }}>
               <span className="text-white font-bold text-xs tracking-tight">IS</span>
             </div>
             <div className="hidden sm:block">
