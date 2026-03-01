@@ -71,13 +71,16 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen relative" style={{ background: '#171a1b' }}>
-      {/* Zona de iluminación: foco suave top-center + acento lateral */}
+      {/* Iluminación por zonas — como luz de linterna/vela */}
       <div style={{
         position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 0,
         background: [
-          'radial-gradient(ellipse 55% 35% at 50% 0%, rgba(90,143,168,0.13) 0%, transparent 70%)',
-          'radial-gradient(ellipse 30% 40% at 90% 30%, rgba(122,114,176,0.07) 0%, transparent 65%)',
-          'radial-gradient(ellipse 25% 30% at 10% 70%, rgba(90,143,168,0.05) 0%, transparent 60%)',
+          /* foco principal: linterna desde arriba-izquierda, cálido */
+          'radial-gradient(ellipse 40% 50% at 18% 12%, rgba(201,170,96,0.18) 0%, transparent 65%)',
+          /* contraluz fría en la derecha */
+          'radial-gradient(ellipse 28% 38% at 88% 22%, rgba(90,143,168,0.15) 0%, transparent 60%)',
+          /* brillo tenue en la zona central-baja */
+          'radial-gradient(ellipse 35% 25% at 55% 85%, rgba(154,136,192,0.08) 0%, transparent 60%)',
         ].join(', ')
       }} />
       {/* Header */}
