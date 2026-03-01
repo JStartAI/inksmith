@@ -34,8 +34,8 @@ function TreeNode({ doc, documents, selectedId, onSelect, onAddChild, onDelete, 
       <div
         className={`group flex items-center gap-1.5 py-[5px] px-2 cursor-pointer transition-colors text-sm rounded-sm ${
           isSelected
-            ? 'bg-[#2a5fa8] text-white'
-            : 'text-[#c8c8cc] hover:bg-[#2a2a2e] hover:text-white'
+            ? 'text-white'
+            : 'text-[#b0aca4] hover:text-[#d8d4cc]'
         }`}
         style={{ paddingLeft: `${depth * 14 + 8}px` }}
         onClick={() => {
@@ -50,7 +50,7 @@ function TreeNode({ doc, documents, selectedId, onSelect, onAddChild, onDelete, 
         ) : (
           <span className="w-3.5" />
         )}
-        <Icon className={`w-3.5 h-3.5 flex-shrink-0 ${isSelected ? 'text-white' : 'text-[#888]'}`} />
+        <Icon className={`w-3.5 h-3.5 flex-shrink-0 ${isSelected ? 'text-white' : 'text-[#6e6a64]'}`} />
         <span className={`truncate flex-1 text-[12.5px] leading-none ${isFolder ? 'font-medium' : ''}`}>
           {doc.title}
         </span>
@@ -120,17 +120,17 @@ export default function Binder({ documents, selectedId, onSelect, onAddChild, on
     : null;
 
   return (
-    <div className="h-full flex flex-col" style={{ background: '#1c1c1e', borderRight: '1px solid #333' }}>
+    <div className="h-full flex flex-col" style={{ background: '#2a2d2e', borderRight: '1px solid #404446' }}>
       {/* Header */}
-      <div className="px-3 pt-3 pb-2" style={{ borderBottom: '1px solid #2a2a2e' }}>
-        <p className="text-[11px] font-semibold uppercase tracking-widest text-[#666] mb-2 px-1">Binder</p>
+      <div className="px-3 pt-3 pb-2" style={{ borderBottom: '1px solid #404446' }}>
+        <p className="text-[11px] font-semibold uppercase tracking-widest text-[#6e6a64] mb-2 px-1">Binder</p>
         <div className="relative">
           <SearchIcon className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3 h-3 text-[#555]" />
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Buscar..."
-            className="w-full h-7 pl-7 pr-2 text-[12px] rounded-sm outline-none text-[#bbb] placeholder-[#555] bg-[#2a2a2e] border border-[#333]"
+            className="w-full h-7 pl-7 pr-2 text-[12px] rounded-sm outline-none text-[#b0aca4] placeholder-[#6e6a64] bg-[#333638] border border-[#505558]"
           />
         </div>
       </div>
@@ -168,8 +168,8 @@ export default function Binder({ documents, selectedId, onSelect, onAddChild, on
       </div>
 
       {/* Footer word count */}
-      <div style={{ borderTop: '1px solid #2a2a2e' }} className="px-3 py-2">
-        <p className="text-[10px] text-[#444]">
+      <div style={{ borderTop: '1px solid #404446' }} className="px-3 py-2">
+        <p className="text-[10px] text-[#6e6a64]">
           {documents.filter(d => d.type === 'document').length} documentos
         </p>
       </div>
