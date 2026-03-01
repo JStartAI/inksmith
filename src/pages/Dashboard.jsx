@@ -103,7 +103,7 @@ export default function Dashboard() {
         </div>
       </header>
 
-      <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8" style={{ background: 'radial-gradient(ellipse 70% 50% at 50% 0%, rgba(100,130,140,0.07) 0%, transparent 65%)' }}>
         {isLoading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
             {[1,2,3].map(i => (
