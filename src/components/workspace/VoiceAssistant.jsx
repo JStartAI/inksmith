@@ -187,13 +187,13 @@ export default function VoiceAssistant({ projectId, projectTitle, onCommandExecu
                 disabled={loading}
               />
               <button
-                onClick={startListening}
-                disabled={listening || loading}
+                onClick={listening ? stopListening : startListening}
+                disabled={loading}
                 className="p-2 rounded hover:bg-white/10 transition-colors"
                 style={{ color: listening ? '#7ba7bc' : '#9e9a94' }}
-                title="Hablar"
+                title={listening ? 'Detener' : 'Hablar'}
               >
-                <Mic className="w-4 h-4" />
+                <Mic className={`w-4 h-4 ${listening ? 'animate-pulse' : ''}`} />
               </button>
               <button
                 onClick={() => sendMessage()}
