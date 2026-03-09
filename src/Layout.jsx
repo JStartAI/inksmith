@@ -139,6 +139,14 @@ export default function Layout({ children, currentPageName }) {
       `}</style>
       <div className="min-h-screen relative">
         {children}
+        
+        {/* Global Voice Assistant - Always Present */}
+        <div className="fixed bottom-6 right-6 z-40">
+          <VoiceAssistant 
+            projectId={getProjectIdFromUrl() || ''}
+            projectTitle={currentPageName === 'Workspace' ? document.title : 'InkSmith'}
+          />
+        </div>
       </div>
     </LanguageProvider>
   );
