@@ -68,8 +68,14 @@ export default function VoiceAssistant({ projectId, projectTitle, onCommandExecu
   }, [messages]);
 
   const startListening = () => {
-    if (recognitionRef.current) {
+    if (recognitionRef.current && !listening) {
       recognitionRef.current.start();
+    }
+  };
+
+  const stopListening = () => {
+    if (recognitionRef.current) {
+      recognitionRef.current.stop();
     }
   };
 
