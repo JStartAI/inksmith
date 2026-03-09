@@ -66,12 +66,12 @@ export default function Editor({ document: doc, onSave, fontFamily = 'sans' }) {
 
   if (!doc) {
     return (
-      <div className="flex-1 flex items-center justify-center" style={{ background: '#f0ede8' }}>
+      <div className="flex-1 flex items-center justify-center" style={{ background: '#ede9e0' }}>
         <div className="text-center">
           <div className="w-14 h-14 rounded-full bg-white shadow flex items-center justify-center mx-auto mb-4">
             <span className="text-2xl">✍️</span>
           </div>
-          <p className="text-sm text-[#9c9690]">{t('editor.placeholder')}</p>
+          <p className="text-sm text-[#5a5550]">{t('editor.placeholder')}</p>
         </div>
       </div>
     );
@@ -80,10 +80,10 @@ export default function Editor({ document: doc, onSave, fontFamily = 'sans' }) {
   const wordCount = countWords(content);
 
   return (
-    <div className="flex-1 flex flex-col h-full overflow-hidden" style={{ background: '#f0ede8' }}>
+    <div className="flex-1 flex flex-col h-full overflow-hidden" style={{ background: '#ede9e0' }}>
       {/* Document title */}
-      <div className="px-6 pt-5 pb-2 flex items-center gap-2" style={{ background: '#f0ede8' }}>
-        <h2 className="text-[13px] font-semibold text-[#6b6560] tracking-wide">{doc.title}</h2>
+      <div className="px-6 pt-5 pb-2 flex items-center gap-2" style={{ background: '#ede9e0' }}>
+        <h2 className="text-[13px] font-semibold text-[#2d2924] tracking-wide">{doc.title}</h2>
       </div>
 
       {/* Writing area - centered page */}
@@ -108,12 +108,12 @@ export default function Editor({ document: doc, onSave, fontFamily = 'sans' }) {
       {/* Status bar */}
       <div
         className="flex items-center justify-between px-5 py-1.5"
-        style={{ borderTop: '1px solid #ddd9d3', background: '#e8e5e0' }}
+        style={{ borderTop: '1px solid #ccc5bd', background: '#ddd9d0' }}
       >
-        <span className="text-[11px] text-[#9c9690] tabular-nums">
+        <span className="text-[11px] text-[#4a4540] tabular-nums font-medium">
           {wordCount.toLocaleString()} {t('editor.wordCount')}
         </span>
-        <span className={`text-[11px] transition-opacity ${saving ? 'text-[#2563eb] opacity-100' : 'text-[#bbb] opacity-80'}`}>
+        <span className={`text-[11px] transition-opacity font-medium ${saving ? 'text-[#2563eb] opacity-100' : 'text-[#888] opacity-70'}`}>
           {saving ? t('editor.saving') : t('editor.saved')}
         </span>
       </div>
