@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { LanguageProvider } from './components/i18n/LanguageContext';
+import VoiceAssistant from './components/workspace/VoiceAssistant';
 
 export default function Layout({ children }) {
   return (
