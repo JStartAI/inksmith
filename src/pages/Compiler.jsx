@@ -3,11 +3,12 @@ import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
-import { ArrowLeft, Download, FileText, Check } from 'lucide-react';
+import { ArrowLeft, Download, FileText, Check, Loader2 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLanguage } from '../components/i18n/LanguageContext';
+import jsPDF from 'jspdf';
 
 function stripHtml(html) {
   if (!html) return '';
@@ -20,6 +21,8 @@ export default function Compiler() {
   const projectId = params.get('projectId');
   const [selectedDocs, setSelectedDocs] = useState(new Set());
   const [exported, setExported] = useState(false);
+  const [exportFormat, setExportFormat] = useState('markdown'); // markdown, pdf, epub
+  const [exporting, setExporting] = useState(false);
 
   const { data: project } = useQuery({
     queryKey: ['project', projectId],
@@ -69,6 +72,110 @@ export default function Compiler() {
     URL.revokeObjectURL(url);
     setExported(true);
     setTimeout(() => setExported(false), 3000);
+  };
+
+  const exportPDF = () => {
+    const selected = manuscriptDocs.filter(d => selectedDocs.has(d.id));
+    const doc = new jsPDF();
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const margin = 15;
+    const lineHeight = 7;
+    let yPosition = margin;
+
+    // Title
+    doc.setFontSize(20);
+    doc.setFont(undefined, 'bold');
+    doc.text(project?.title || 'Untitled', margin, yPosition);
+    yPosition += 15;
+
+    // Content
+    doc.setFontSize(12);
+    doc.setFont(undefined, 'normal');
+
+    selected.forEach((section, idx) => {
+      // Chapter title
+      doc.setFontSize(14);
+      doc.setFont(undefined, 'bold');
+      if (yPosition > pageHeight - 20) {
+        doc.addPage();
+        yPosition = margin;
+      }
+      doc.text(section.title, margin, yPosition);
+      yPosition += 10;
+
+      // Content
+      doc.setFontSize(11);
+      doc.setFont(undefined, 'normal');
+      const text = stripHtml(section.content || '');
+      const splitText = doc.splitTextToSize(text, pageWidth - 2 * margin);
+
+      splitText.forEach(line => {
+        if (yPosition > pageHeight - 15) {
+          doc.addPage();
+          yPosition = margin;
+        }
+        doc.text(line, margin, yPosition);
+        yPosition += lineHeight;
+      });
+
+      yPosition += 8;
+    });
+
+    doc.save(`${(project?.title || 'manuscript').replace(/\s+/g, '_')}.pdf`);
+    setExported(true);
+    setTimeout(() => setExported(false), 3000);
+  };
+
+  const exportEPUB = async () => {
+    // EPUB básico como HTML comprimido (requeriría librería externa para producción)
+    const selected = manuscriptDocs.filter(d => selectedDocs.has(d.id));
+    let html = `<?xml version="1.0" encoding="utf-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>${project?.title || 'Untitled'}</title>
+  <style>
+    body { font-family: serif; line-height: 1.6; }
+    h1 { font-size: 2em; margin: 0.5em 0; }
+    h2 { font-size: 1.5em; margin: 0.75em 0 0.25em 0; }
+    p { margin: 0.5em 0; }
+  </style>
+</head>
+<body>
+  <h1>${project?.title || 'Untitled'}</h1>
+`;
+
+    selected.forEach(doc => {
+      html += `<h2>${doc.title}</h2>\n`;
+      html += `<div>${doc.content || ''}</div>\n`;
+    });
+
+    html += `</body></html>`;
+
+    const blob = new Blob([html], { type: 'application/epub+zip' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${(project?.title || 'manuscript').replace(/\s+/g, '_')}.epub`;
+    a.click();
+    URL.revokeObjectURL(url);
+    setExported(true);
+    setTimeout(() => setExported(false), 3000);
+  };
+
+  const handleExport = async () => {
+    setExporting(true);
+    try {
+      if (exportFormat === 'markdown') {
+        exportMarkdown();
+      } else if (exportFormat === 'pdf') {
+        exportPDF();
+      } else if (exportFormat === 'epub') {
+        await exportEPUB();
+      }
+    } finally {
+      setExporting(false);
+    }
   };
 
   const totalWords = manuscriptDocs
@@ -155,19 +262,42 @@ export default function Compiler() {
               </CardContent>
             </Card>
 
+            {/* Format selector */}
+            <div className="grid grid-cols-3 gap-2">
+              {[
+                { id: 'markdown', label: 'Markdown', ext: '.md' },
+                { id: 'pdf', label: 'PDF', ext: '.pdf' },
+                { id: 'epub', label: 'EPUB', ext: '.epub' },
+              ].map(fmt => (
+                <button
+                  key={fmt.id}
+                  onClick={() => setExportFormat(fmt.id)}
+                  className={`p-3 rounded-lg text-xs font-semibold transition-all border ${
+                    exportFormat === fmt.id
+                      ? 'bg-[var(--ink-accent)] text-white border-[var(--ink-accent)]'
+                      : 'bg-[var(--ink-surface)] text-[var(--ink-text-secondary)] border-[var(--ink-border)]'
+                  }`}
+                >
+                  {fmt.label}
+                </button>
+              ))}
+            </div>
+
             <Button
-              onClick={exportMarkdown}
-              disabled={selectedDocs.size === 0}
+              onClick={handleExport}
+              disabled={selectedDocs.size === 0 || exporting}
               className={`w-full h-11 rounded-xl text-sm transition-all ${
                 exported
                   ? 'bg-green-600 hover:bg-green-700'
                   : 'bg-[var(--ink-accent)] hover:bg-[var(--ink-accent-hover)]'
               } text-white`}
             >
-              {exported ? (
+              {exporting ? (
+                <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Exportando...</>
+              ) : exported ? (
                 <><Check className="w-4 h-4 mr-2" />{lang === 'es' ? 'Exportado' : 'Exported'}</>
               ) : (
-                <><Download className="w-4 h-4 mr-2" />{t('compiler.export')} Markdown</>
+                <><Download className="w-4 h-4 mr-2" />{t('compiler.export')} {exportFormat.toUpperCase()}</>
               )}
             </Button>
           </div>
