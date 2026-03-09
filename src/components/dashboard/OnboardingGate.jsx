@@ -132,31 +132,16 @@ export default function OnboardingGate({ children }) {
                   <div className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs text-[#c9aa60]"
                     style={{ background: '#3a3620', border: '1px solid #4a4830' }}>
                     <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" />
-                    Necesitas conectar Drive para continuar
+                    Conecta Drive para guardar automáticamente
                   </div>
-                  <input
-                    value={clientId}
-                    onChange={e => setClientId(e.target.value)}
-                    placeholder="Google Client ID"
-                    className="w-full px-3 py-2 rounded-xl text-sm text-[#d8d4cc] outline-none"
-                    style={{ background: '#272b2c', border: '1px solid #363a3b' }}
-                  />
-                  <p className="text-[10px] text-[#6e6a64]">
-                    Obtén tu Client ID en{' '}
-                    <a href="https://console.cloud.google.com/apis/credentials"
-                      target="_blank" rel="noopener noreferrer"
-                      className="text-[#7ba7bc] hover:underline">
-                      Google Cloud Console
-                    </a>
-                  </p>
                   {error && <p className="text-xs text-[#c97a7a]">{error}</p>}
                   <button
                     onClick={initAndConnect}
-                    disabled={loading || !clientId}
+                    disabled={loading}
                     className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-medium text-white transition-opacity disabled:opacity-50"
                     style={{ background: 'linear-gradient(135deg, #5a8fa8, #7a72b0)' }}>
                     <Cloud className="w-4 h-4" />
-                    {loading ? 'Conectando...' : 'Conectar Google Drive'}
+                    {loading ? 'Conectando...' : 'Conectar con Google'}
                   </button>
                 </div>
               )}
