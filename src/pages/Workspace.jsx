@@ -118,6 +118,7 @@ export default function Workspace() {
         }
         break;
       case 'new-doc':
+      case 'new-document':
         const parentId = selectedDoc?.id || documents.find(d => d.category === 'manuscript' && !d.parent_id)?.id;
         addChild.mutate({ parentId, type: 'document' });
         break;
@@ -137,13 +138,36 @@ export default function Workspace() {
         setInspectorOpen(!inspectorOpen);
         break;
       case 'plot-view':
+      case 'go-plot':
         setViewMode('plot');
         break;
       case 'corkboard-view':
+      case 'go-corkboard':
         setViewMode('corkboard');
         break;
       case 'editor-view':
+      case 'go-editor':
         setViewMode('editor');
+        break;
+      case 'go-outliner':
+        setViewMode('outliner');
+        break;
+      case 'go-correction':
+        setViewMode('correction');
+        break;
+      case 'go-characters':
+        window.location.href = createPageUrl('Characters') + `?projectId=${projectId}`;
+        break;
+      case 'go-aiforge':
+        window.location.href = createPageUrl('AIForge') + `?projectId=${projectId}`;
+        break;
+      case 'go-compiler':
+        window.location.href = createPageUrl('Compiler') + `?projectId=${projectId}`;
+        break;
+      case 'create-snapshot':
+        if (selectedDoc?.type === 'document') {
+          createSnapshot.mutate();
+        }
         break;
     }
   };
