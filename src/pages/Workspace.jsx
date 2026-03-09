@@ -1,4 +1,3 @@
-import React, { useState, useCallback, useEffect } from 'react';
 import React, { useState, useEffect, useCallback } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -27,7 +26,7 @@ export default function Workspace() {
   const projectId = params.get('projectId');
 
   const [selectedDoc, setSelectedDoc] = useState(null);
-  const [viewMode, setViewMode] = useState('editor'); // editor, corkboard, outliner
+  const [viewMode, setViewMode] = useState('editor');
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [inspectorOpen, setInspectorOpen] = useState(false);
   const [mobileSidebar, setMobileSidebar] = useState(false);
@@ -149,7 +148,6 @@ export default function Workspace() {
   };
 
   const handleVoiceTranscript = (text) => {
-    // Si está en editor, agregar el texto al documento
     if (viewMode === 'editor' && selectedDoc?.type === 'document') {
       const currentContent = selectedDoc.content || '';
       const updatedContent = currentContent + '\n' + text;
@@ -157,11 +155,9 @@ export default function Workspace() {
     }
   };
 
-  // Find the active parent folder for corkboard/outliner
   const activeParentId = selectedDoc?.type === 'folder' ? selectedDoc.id :
     selectedDoc?.parent_id || documents.find(d => d.category === 'manuscript' && !d.parent_id)?.id;
 
-  // Recalculate total word count
   useEffect(() => {
     if (project && documents.length > 0) {
       const totalWords = documents.reduce((sum, d) => sum + (d.word_count || 0), 0);
@@ -183,7 +179,6 @@ export default function Workspace() {
 
   return (
     <div className="h-screen flex flex-col overflow-hidden" style={{ background: minimalMode ? '#0f0f0f' : '#1e2122' }}>
-      {/* Toolbar */}
       <header className={`h-11 flex items-center justify-between px-2 flex-shrink-0 transition-all duration-200 ${minimalMode ? 'opacity-0 h-0 pointer-events-none' : ''}`} style={{ background: '#272b2c', borderBottom: '1px solid #363a3b' }}>
         <div className="flex items-center gap-1">
           <button
@@ -208,14 +203,13 @@ export default function Workspace() {
         </div>
 
         <div className="flex items-center gap-1">
-          {/* View mode */}
           <div className="flex items-center rounded overflow-hidden mr-2" style={{ border: '1px solid #505558' }}>
             {[
-               { mode: 'editor', icon: PenLine, label: t('workspace.editor') },
-               { mode: 'plot', icon: Sparkles, label: 'Trama' },
-               { mode: 'corkboard', icon: Grid3X3, label: t('workspace.corkboard') },
-               { mode: 'outliner', icon: List, label: t('workspace.outliner') },
-               { mode: 'correction', icon: CheckSquare, label: 'Corrección' },
+              { mode: 'editor', icon: PenLine, label: t('workspace.editor') },
+              { mode: 'plot', icon: Sparkles, label: 'Trama' },
+              { mode: 'corkboard', icon: Grid3X3, label: t('workspace.corkboard') },
+              { mode: 'outliner', icon: List, label: t('workspace.outliner') },
+              { mode: 'correction', icon: CheckSquare, label: 'Corrección' },
             ].map(({ mode, icon: Icon, label }, i) => (
               <button
                 key={mode}
@@ -223,10 +217,10 @@ export default function Workspace() {
                 title={label}
                 className="p-1.5 transition-colors"
                 style={{
-                   background: viewMode === mode ? '#5a8fa8' : 'transparent',
-                   color: viewMode === mode ? '#fff' : '#9e9a94',
-                   borderRight: i < 4 ? '1px solid #505558' : 'none',
-                 }}
+                  background: viewMode === mode ? '#5a8fa8' : 'transparent',
+                  color: viewMode === mode ? '#fff' : '#9e9a94',
+                  borderRight: i < 4 ? '1px solid #505558' : 'none',
+                }}
               >
                 <Icon className="w-3.5 h-3.5" />
               </button>
@@ -271,14 +265,11 @@ export default function Workspace() {
         </div>
       </header>
 
-      {/* Main Content */}
       <div className="flex-1 flex overflow-hidden relative">
-        {/* Mobile sidebar overlay */}
         {mobileSidebar && (
           <div className="fixed inset-0 bg-black/40 z-40 md:hidden" onClick={() => setMobileSidebar(false)} />
         )}
 
-        {/* Binder */}
         <div className={`
           ${mobileSidebar ? 'translate-x-0' : '-translate-x-full'}
           md:translate-x-0
@@ -297,7 +288,6 @@ export default function Workspace() {
           />
         </div>
 
-        {/* Editor / View area */}
         <div className="flex-1 flex overflow-hidden">
           {viewMode === 'editor' && (
             <Editor
@@ -341,7 +331,6 @@ export default function Workspace() {
           )}
         </div>
 
-        {/* Inspector */}
         {inspectorOpen && selectedDoc?.type === 'document' && !minimalMode && (
           <div className="w-64 lg:w-72 flex-shrink-0 hidden md:block">
             <Inspector

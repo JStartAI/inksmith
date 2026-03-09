@@ -47,26 +47,14 @@
  *
  * The mainPage value must match a key in the PAGES object exactly.
  */
-import AIForge from './pages/AIForge';
-import Characters from './pages/Characters';
-import Compiler from './pages/Compiler';
-import Dashboard from './pages/Dashboard';
-import Settings from './pages/Settings';
 import Workspace from './pages/Workspace';
-import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
-    "AIForge": AIForge,
-    "Characters": Characters,
-    "Compiler": Compiler,
-    "Dashboard": Dashboard,
-    "Settings": Settings,
     "Workspace": Workspace,
 }
 
 export const pagesConfig = {
-    mainPage: "Dashboard",
+    mainPage: "Workspace",
     Pages: PAGES,
-    Layout: __Layout,
 };
