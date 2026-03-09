@@ -86,17 +86,35 @@ export default function Layout({ children }) {
         .ink-editor .ql-editor {
           padding: 28px 40px !important;
           min-height: 70vh;
-          color: #0f0f0f !important;
+          color: #000000 !important;
+          font-weight: 500 !important;
         }
         .ink-editor .ql-editor.ql-blank::before {
-          color: #999;
+          color: #888;
           font-style: normal;
           left: 40px;
         }
-        .ink-editor .ql-editor p { margin-bottom: 0.6em; }
-        .ink-editor .ql-editor h1, 
-        .ink-editor .ql-editor h2, 
-        .ink-editor .ql-editor h3 { color: #0f0f0f !important; }
+        .ink-editor .ql-editor p { 
+          margin-bottom: 0.6em;
+          color: #000000 !important;
+        }
+        .ink-editor .ql-editor h1 { 
+          color: #000000 !important;
+          font-weight: 700 !important;
+        }
+        .ink-editor .ql-editor h2 { 
+          color: #000000 !important;
+          font-weight: 700 !important;
+        }
+        .ink-editor .ql-editor h3 { 
+          color: #000000 !important;
+          font-weight: 700 !important;
+        }
+        .ink-editor .ql-editor strong { color: #000000 !important; }
+        .ink-editor .ql-editor em { color: #000000 !important; }
+        .ink-editor .ql-editor u { color: #000000 !important; }
+        .ink-editor .ql-editor s { color: #000000 !important; }
+        .ink-editor .ql-editor blockquote { color: #1a1a1a !important; }
         
         @keyframes fadeIn {
           from { opacity: 0; transform: translateY(8px); }
