@@ -2,7 +2,15 @@ import React, { useState } from 'react';
 import { LanguageProvider } from './components/i18n/LanguageContext';
 import VoiceAssistant from './components/workspace/VoiceAssistant';
 
-export default function Layout({ children }) {
+export default function Layout({ children, currentPageName }) {
+  const [voiceOpen, setVoiceOpen] = useState(false);
+
+  // Extract projectId from URL if we're in Workspace
+  const getProjectIdFromUrl = () => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('projectId');
+  };
+
   return (
     <LanguageProvider>
       <style>{`
