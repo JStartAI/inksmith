@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Plus, BookOpen, FileText, Clock, MoreHorizontal, Settings, Trash2 } from 'lucide-react';
+import { Plus, BookOpen, FileText, Clock, MoreHorizontal, Settings, Trash2, Sparkles, ArrowRight } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { useLanguage } from '../components/i18n/LanguageContext';
@@ -14,11 +14,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 const statusColors = {
-  planning:  { bg: '#3a3620', text: '#c9aa60' },
-  drafting:  { bg: '#22303a', text: '#7ba7bc' },
-  revising:  { bg: '#302240', text: '#9a88c0' },
-  editing:   { bg: '#3a2c20', text: '#c99060' },
-  complete:  { bg: '#1e3028', text: '#7aaa88' },
+  planning:  { bg: '#fef08a', text: '#78350f' },
+  drafting:  { bg: '#bfdbfe', text: '#0c2d6b' },
+  revising:  { bg: '#e9d5ff', text: '#4c0519' },
+  editing:   { bg: '#fed7aa', text: '#7c2d12' },
+  complete:  { bg: '#bbf7d0', text: '#022c22' },
 };
 
 export default function Dashboard() {
@@ -72,44 +72,32 @@ export default function Dashboard() {
 
   return (
     <OnboardingGate>
-    <div className="min-h-screen relative" style={{ background: '#171a1b' }}>
-      {/* Iluminación por zonas — como luz de linterna/vela */}
-      <div style={{
-        position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 0,
-        background: [
-          /* foco principal: linterna desde arriba-izquierda, cálido */
-          'radial-gradient(ellipse 40% 50% at 18% 12%, rgba(201,170,96,0.18) 0%, transparent 65%)',
-          /* contraluz fría en la derecha */
-          'radial-gradient(ellipse 28% 38% at 88% 22%, rgba(90,143,168,0.15) 0%, transparent 60%)',
-          /* brillo tenue en la zona central-baja */
-          'radial-gradient(ellipse 35% 25% at 55% 85%, rgba(154,136,192,0.08) 0%, transparent 60%)',
-        ].join(', ')
-      }} />
+    <div className="min-h-screen" style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%)' }}>
       {/* Header */}
-      <header style={{ background: 'rgba(30,33,34,0.96)', borderBottom: '1px solid #363a3b', backdropFilter: 'blur(12px)' }} className="sticky top-0 z-30">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #5a8fa8, #7a72b0)' }}>
-              <span className="text-white font-bold text-xs tracking-tight">IS</span>
+      <header className="border-b" style={{ borderColor: '#334155', background: 'rgba(15, 23, 42, 0.8)', backdropFilter: 'blur(12px)' }}>
+        <div className="max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className="w-11 h-11 rounded-lg bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center shadow-lg">
+              <Sparkles className="w-6 h-6 text-white" />
             </div>
-            <div className="hidden sm:block">
-              <h1 className="text-[15px] font-bold text-[#d8d4cc] tracking-tight">InkSmith</h1>
-              <p className="text-[9px] text-[#6e6a64] tracking-widest uppercase">{t('app.tagline')}</p>
+            <div>
+              <h1 className="text-2xl font-black text-white tracking-tight">InkSmith</h1>
+              <p className="text-xs text-blue-300 font-semibold tracking-widest uppercase">{t('app.tagline')}</p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <LanguageSwitcher />
             <Link to={createPageUrl('Settings')}>
-              <button className="p-2 rounded-lg text-[#6e6a64] hover:text-[#9e9a94] hover:bg-[#393c3e] transition-colors">
-                <Settings className="w-4 h-4" />
+              <button className="p-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all">
+                <Settings className="w-5 h-5" />
               </button>
             </Link>
             <button
               onClick={() => setShowNewProject(true)}
-              className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-white text-[13px] font-medium transition-all hover:opacity-90 active:scale-95"
-              style={{ background: 'linear-gradient(135deg, #5a8fa8, #7a72b0)' }}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-white font-semibold text-sm transition-all hover:shadow-lg hover:scale-105 active:scale-95"
+              style={{ background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)' }}
             >
-              <Plus className="w-3.5 h-3.5" />
+              <Plus className="w-4 h-4" />
               <span className="hidden sm:inline">{t('dashboard.newProject')}</span>
               <span className="sm:hidden">Nuevo</span>
             </button>
@@ -117,41 +105,42 @@ export default function Dashboard() {
         </div>
       </header>
 
-      <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+      <main className="max-w-7xl mx-auto px-6 py-12">
         {isLoading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
             {[1,2,3].map(i => (
-              <div key={i} className="h-40 rounded-2xl animate-pulse" style={{ background: '#272b2c' }} />
+              <div key={i} className="h-64 rounded-xl animate-pulse" style={{ background: '#1e293b' }} />
             ))}
           </div>
         ) : projects.length === 0 ? (
           <EmptyState onNew={() => setShowNewProject(true)} t={t} />
         ) : (
           <>
-            {/* Stats strip */}
-            <div className="grid grid-cols-3 gap-3 mb-8">
+            {/* Stats grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12">
               {[
-                { label: lang === 'es' ? 'Proyectos' : 'Projects', value: projects.length, icon: BookOpen },
-                { label: lang === 'es' ? 'Palabras totales' : 'Total words', value: totalWords.toLocaleString(), icon: FileText },
-                { label: lang === 'es' ? 'Promedio' : 'Average', value: (projects.length ? Math.round(totalWords / projects.length) : 0).toLocaleString(), icon: Clock },
-              ].map(({ label, value, icon: Icon }) => (
-                <div key={label} className="rounded-xl px-4 py-3" style={{ background: '#272b2c', border: '1px solid #363a3b' }}>
-                  <div className="flex items-center gap-2 mb-1">
-                    <Icon className="w-3 h-3 text-[#7ba7bc]" />
-                    <p className="text-[10px] text-[#6e6a64] uppercase tracking-wider">{label}</p>
+                { label: lang === 'es' ? 'Proyectos activos' : 'Active projects', value: projects.length, icon: BookOpen, color: 'from-blue-500 to-blue-600' },
+                { label: lang === 'es' ? 'Palabras totales' : 'Total words', value: totalWords.toLocaleString(), icon: FileText, color: 'from-purple-500 to-purple-600' },
+                { label: lang === 'es' ? 'Promedio por proyecto' : 'Avg per project', value: (projects.length ? Math.round(totalWords / projects.length) : 0).toLocaleString(), icon: Clock, color: 'from-pink-500 to-pink-600' },
+              ].map(({ label, value, icon: Icon, color }) => (
+                <div key={label} className="rounded-xl p-6 border" style={{ background: 'rgba(30, 41, 59, 0.5)', borderColor: '#475569' }}>
+                  <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${color} flex items-center justify-center mb-4`}>
+                    <Icon className="w-5 h-5 text-white" />
                   </div>
-                  <p className="text-[22px] font-bold text-[#d8d4cc] tabular-nums leading-none">{value}</p>
+                  <p className="text-xs text-slate-400 font-semibold uppercase tracking-widest mb-2">{label}</p>
+                  <p className="text-3xl font-black text-white leading-none">{value}</p>
                 </div>
               ))}
             </div>
 
             {/* Section title */}
-            <p className="text-[11px] font-semibold text-[#6e6a64] uppercase tracking-widest mb-4">
-              {t('dashboard.projects')}
-            </p>
+            <div className="mb-8">
+              <h2 className="text-2xl font-black text-white mb-2">{t('dashboard.projects')}</h2>
+              <div className="h-1 w-16 rounded-full" style={{ background: 'linear-gradient(90deg, #3b82f6, #8b5cf6)' }} />
+            </div>
 
             {/* Projects grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {projects.map(project => (
                 <ProjectCard
                   key={project.id}
@@ -163,9 +152,6 @@ export default function Dashboard() {
           </>
         )}
       </main>
-
-      {/* Mobile bottom safe area */}
-      <div className="h-6 sm:hidden" />
 
       <NewProjectDialog
         open={showNewProject}
@@ -181,92 +167,110 @@ function ProjectCard({ project, onDelete }) {
   const status = statusColors[project.status] || statusColors.planning;
 
   return (
-    <div
-      className="group relative rounded-2xl p-5 transition-all duration-200 hover:translate-y-[-2px] cursor-pointer"
-      style={{ background: '#313538', border: '1px solid #404446' }}
-    >
-      <Link to={createPageUrl('Workspace') + `?projectId=${project.id}`} className="block">
-        <div className="flex items-start justify-between mb-3">
-          <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: '#2e3d45' }}>
-            <BookOpen className="w-4 h-4 text-[#7ba7bc]" />
+    <Link to={createPageUrl('Workspace') + `?projectId=${project.id}`}>
+      <div
+        className="group relative rounded-xl p-6 transition-all duration-300 hover:translate-y-[-4px] cursor-pointer border h-full flex flex-col"
+        style={{ background: 'rgba(30, 41, 59, 0.6)', borderColor: '#475569' }}
+      >
+        <div className="flex items-start justify-between mb-4">
+          <div className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 bg-gradient-to-br from-blue-500 to-purple-600">
+            <BookOpen className="w-6 h-6 text-white" />
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full capitalize" style={{ background: status.bg, color: status.text }}>
+            <span className="text-xs font-bold px-3 py-1 rounded-full capitalize" style={{ background: status.bg, color: status.text }}>
               {project.status?.replace(/_/g, ' ') || 'planning'}
             </span>
           </div>
         </div>
 
-        <h3 className="text-[14px] font-semibold text-[#d8d4cc] mb-1 line-clamp-1 group-hover:text-[#7ba7bc] transition-colors">
+        <h3 className="text-lg font-black text-white mb-2 line-clamp-2 group-hover:text-blue-300 transition-colors">
           {project.title}
         </h3>
         {project.description && (
-          <p className="text-[12px] text-[#6e6a64] line-clamp-2 mb-3 leading-relaxed">{project.description}</p>
+          <p className="text-sm text-slate-300 line-clamp-2 mb-4 leading-relaxed flex-grow">{project.description}</p>
         )}
 
-        <div className="flex items-center gap-3 text-[11px] text-[#6e6a64]">
-          <span className="flex items-center gap-1">
-            <FileText className="w-3 h-3" />
+        <div className="flex items-center gap-4 text-xs text-slate-400 mb-4 font-semibold">
+          <span className="flex items-center gap-1.5">
+            <FileText className="w-4 h-4" />
             {(project.word_count || 0).toLocaleString()}w
           </span>
-          <span className="flex items-center gap-1">
-            <Clock className="w-3 h-3" />
+          <span className="flex items-center gap-1.5">
+            <Clock className="w-4 h-4" />
             {moment(project.updated_date).fromNow()}
           </span>
-          <span className="ml-auto text-[10px] text-[#6e6a64]">
+          <span className="ml-auto">
             {project.language === 'es' ? '🇪🇸' : '🇬🇧'}
           </span>
         </div>
 
         {project.target_word_count > 0 && (
-          <div className="mt-3">
-            <div className="h-1 rounded-full overflow-hidden" style={{ background: '#404446' }}>
+          <div className="mb-4">
+            <div className="flex justify-between items-center mb-2">
+              <span className="text-xs font-semibold text-slate-300">Progress</span>
+              <span className="text-xs text-slate-400">{Math.min(100, Math.round(((project.word_count || 0) / project.target_word_count) * 100))}%</span>
+            </div>
+            <div className="h-2 rounded-full overflow-hidden" style={{ background: '#334155' }}>
               <div
                 className="h-full rounded-full transition-all duration-500"
                 style={{
                   width: `${Math.min(100, ((project.word_count || 0) / project.target_word_count) * 100)}%`,
-                  background: 'linear-gradient(90deg, #5a8fa8, #7a72b0)',
+                  background: 'linear-gradient(90deg, #3b82f6, #8b5cf6)',
                 }}
               />
             </div>
           </div>
         )}
-      </Link>
 
-      {/* Delete button */}
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <button
-            className="absolute top-4 right-4 p-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity text-[#6e6a64] hover:text-[#d8d4cc] hover:bg-[#404446]"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <MoreHorizontal className="w-4 h-4" />
-          </button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="min-w-[140px]">
-          <DropdownMenuItem className="text-red-500" onClick={() => onDelete(project.id)}>
-            <Trash2 className="w-3.5 h-3.5 mr-2" /> Eliminar
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </div>
+        <div className="flex items-center gap-2 text-blue-300 font-semibold text-sm opacity-0 group-hover:opacity-100 transition-opacity">
+          <span>Abrir</span>
+          <ArrowRight className="w-4 h-4" />
+        </div>
+
+        {/* Delete button */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button
+              className="absolute top-4 right-4 p-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity text-slate-400 hover:text-white hover:bg-slate-700/50"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+              }}
+            >
+              <MoreHorizontal className="w-4 h-4" />
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="min-w-[140px]">
+            <DropdownMenuItem 
+              className="text-red-400 focus:text-red-300 focus:bg-red-950/30 cursor-pointer" 
+              onClick={(e) => {
+                e.stopPropagation();
+                onDelete(project.id);
+              }}
+            >
+              <Trash2 className="w-3.5 h-3.5 mr-2" /> Eliminar
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+    </Link>
   );
 }
 
 function EmptyState({ onNew, t }) {
   return (
-    <div className="flex flex-col items-center justify-center py-24 px-6 text-center">
-      <div className="w-20 h-20 rounded-3xl flex items-center justify-center mb-6" style={{ background: 'linear-gradient(135deg, #2e3d45, #302240)' }}>
-        <BookOpen className="w-9 h-9 text-[#7ba7bc]" />
+    <div className="flex flex-col items-center justify-center py-32 px-6 text-center">
+      <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center mb-8 shadow-2xl">
+        <BookOpen className="w-12 h-12 text-white" />
       </div>
-      <h2 className="text-xl font-bold text-[#d8d4cc] mb-2">{t('dashboard.emptyTitle')}</h2>
-      <p className="text-[#6e6a64] text-sm mb-8 max-w-xs leading-relaxed">{t('dashboard.emptySubtitle')}</p>
+      <h2 className="text-3xl font-black text-white mb-3">{t('dashboard.emptyTitle')}</h2>
+      <p className="text-slate-400 text-base mb-10 max-w-sm leading-relaxed">{t('dashboard.emptySubtitle')}</p>
       <button
         onClick={onNew}
-        className="flex items-center gap-2 px-6 py-3 rounded-xl text-white font-medium transition-all hover:opacity-90 active:scale-95"
-        style={{ background: 'linear-gradient(135deg, #5a8fa8, #7a72b0)' }}
+        className="flex items-center gap-2 px-8 py-3 rounded-lg text-white font-bold transition-all hover:shadow-lg hover:scale-105 active:scale-95"
+        style={{ background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)' }}
       >
-        <Plus className="w-4 h-4" />
+        <Plus className="w-5 h-5" />
         {t('dashboard.newProject')}
       </button>
     </div>
