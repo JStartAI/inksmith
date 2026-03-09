@@ -115,6 +115,9 @@ export const translations = {
     'common.noResults': 'Sin resultados',
     'common.confirm': 'Confirmar',
     'common.back': 'Volver',
+    
+    // Voice Assistant
+    'voiceAssistant.greeting': 'Hola, soy tu asistente de escritura. ¿Cómo puedo ayudarte hoy?',
   },
   en: {
     // Dashboard
