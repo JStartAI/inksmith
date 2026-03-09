@@ -13,6 +13,7 @@ import Editor from '../components/workspace/Editor';
 import Inspector from '../components/workspace/Inspector';
 import CorkboardView from '../components/workspace/CorkboardView';
 import OutlinerView from '../components/workspace/OutlinerView';
+import PlotView from '../components/workspace/PlotView';
 import BackupManager from '../components/backup/BackupManager';
 import CorrectionMode from '../components/workspace/CorrectionMode';
 
@@ -46,6 +47,12 @@ export default function Workspace() {
     queryKey: ['snapshots', selectedDoc?.id],
     queryFn: () => base44.entities.Snapshot.filter({ document_id: selectedDoc.id }),
     enabled: !!selectedDoc?.id,
+  });
+
+  const { data: characters = [] } = useQuery({
+    queryKey: ['characters', projectId],
+    queryFn: () => base44.entities.Character.filter({ project_id: projectId }),
+    enabled: !!projectId,
   });
 
   const updateDoc = useMutation({
@@ -154,10 +161,11 @@ export default function Workspace() {
           {/* View mode */}
           <div className="flex items-center rounded overflow-hidden mr-2" style={{ border: '1px solid #505558' }}>
             {[
-              { mode: 'editor', icon: PenLine, label: t('workspace.editor') },
-              { mode: 'corkboard', icon: Grid3X3, label: t('workspace.corkboard') },
-              { mode: 'outliner', icon: List, label: t('workspace.outliner') },
-              { mode: 'correction', icon: CheckSquare, label: 'Corrección' },
+               { mode: 'editor', icon: PenLine, label: t('workspace.editor') },
+               { mode: 'plot', icon: Sparkles, label: 'Trama' },
+               { mode: 'corkboard', icon: Grid3X3, label: t('workspace.corkboard') },
+               { mode: 'outliner', icon: List, label: t('workspace.outliner') },
+               { mode: 'correction', icon: CheckSquare, label: 'Corrección' },
             ].map(({ mode, icon: Icon, label }, i) => (
               <button
                 key={mode}
@@ -165,10 +173,10 @@ export default function Workspace() {
                 title={label}
                 className="p-1.5 transition-colors"
                 style={{
-                  background: viewMode === mode ? '#5a8fa8' : 'transparent',
-                  color: viewMode === mode ? '#fff' : '#9e9a94',
-                  borderRight: i < 3 ? '1px solid #505558' : 'none',
-                }}
+                   background: viewMode === mode ? '#5a8fa8' : 'transparent',
+                   color: viewMode === mode ? '#fff' : '#9e9a94',
+                   borderRight: i < 4 ? '1px solid #505558' : 'none',
+                 }}
               >
                 <Icon className="w-3.5 h-3.5" />
               </button>
@@ -245,6 +253,12 @@ export default function Workspace() {
                   setInspectorOpen(false);
                 }
               }}
+            />
+          )}
+          {viewMode === 'plot' && (
+            <PlotView
+              documents={documents}
+              characters={characters}
             />
           )}
           {viewMode === 'corkboard' && (
