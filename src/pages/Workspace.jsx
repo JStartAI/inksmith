@@ -6,6 +6,7 @@ import { createPageUrl } from '@/utils';
 import {
   Menu, X, ArrowLeft, Layout, Grid3X3, List, PenLine, Users, Sparkles, Download, CheckSquare
 } from 'lucide-react';
+import { useCallback } from 'react';
 import { Button } from "@/components/ui/button";
 import { useLanguage } from '../components/i18n/LanguageContext';
 import Binder from '../components/workspace/Binder';
@@ -16,6 +17,8 @@ import OutlinerView from '../components/workspace/OutlinerView';
 import PlotView from '../components/workspace/PlotView';
 import BackupManager from '../components/backup/BackupManager';
 import CorrectionMode from '../components/workspace/CorrectionMode';
+import VoiceControl from '../components/workspace/VoiceControl';
+import VoiceCommandGuide from '../components/workspace/VoiceCommandGuide';
 
 export default function Workspace() {
   const { t } = useLanguage();
@@ -105,6 +108,53 @@ export default function Workspace() {
     setSelectedDoc(doc);
     if (doc.type === 'document') setViewMode('editor');
     setMobileSidebar(false);
+  };
+
+  const handleVoiceCommand = (cmd) => {
+    switch(cmd) {
+      case 'save':
+        if (selectedDoc?.type === 'document') {
+          handleSaveDoc(selectedDoc.id, selectedDoc);
+        }
+        break;
+      case 'new-doc':
+        const parentId = selectedDoc?.id || documents.find(d => d.category === 'manuscript' && !d.parent_id)?.id;
+        addChild.mutate({ parentId, type: 'document' });
+        break;
+      case 'new-character':
+        window.location.href = createPageUrl('Characters') + `?projectId=${projectId}`;
+        break;
+      case 'minimal-mode':
+        setMinimalMode(true);
+        setSidebarOpen(false);
+        setInspectorOpen(false);
+        break;
+      case 'normal-mode':
+      case 'exit-minimal':
+        setMinimalMode(false);
+        break;
+      case 'toggle-inspector':
+        setInspectorOpen(!inspectorOpen);
+        break;
+      case 'plot-view':
+        setViewMode('plot');
+        break;
+      case 'corkboard-view':
+        setViewMode('corkboard');
+        break;
+      case 'editor-view':
+        setViewMode('editor');
+        break;
+    }
+  };
+
+  const handleVoiceTranscript = (text) => {
+    // Si está en editor, agregar el texto al documento
+    if (viewMode === 'editor' && selectedDoc?.type === 'document') {
+      const currentContent = selectedDoc.content || '';
+      const updatedContent = currentContent + '\n' + text;
+      handleSaveDoc(selectedDoc.id, { ...selectedDoc, content: updatedContent });
+    }
   };
 
   // Find the active parent folder for corkboard/outliner
@@ -203,6 +253,13 @@ export default function Workspace() {
           </Link>
 
           <BackupManager projectId={projectId} projectTitle={project?.title || ''} />
+
+          <VoiceCommandGuide />
+
+          <VoiceControl 
+            onCommand={handleVoiceCommand}
+            onTranscript={handleVoiceTranscript}
+          />
 
           <button
             className="p-1.5 rounded hover:bg-white/10 transition-colors"
