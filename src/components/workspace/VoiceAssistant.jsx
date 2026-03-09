@@ -24,18 +24,41 @@ export default function VoiceAssistant({ projectId, projectTitle, onCommandExecu
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (SpeechRecognition) {
       recognitionRef.current = new SpeechRecognition();
-      recognitionRef.current.continuous = false;
-      recognitionRef.current.interimResults = false;
+      recognitionRef.current.continuous = true;
+      recognitionRef.current.interimResults = true;
       recognitionRef.current.lang = 'es-ES';
 
       recognitionRef.current.onstart = () => setListening(true);
-      recognitionRef.current.onend = () => setListening(false);
-      recognitionRef.current.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        setInput(transcript);
+      recognitionRef.current.onend = () => {
+        setListening(false);
+        // Reinicia el reconocimiento cuando termina (siempre escuchando)
+        if (recognitionRef.current && !open) {
+          setTimeout(() => recognitionRef.current?.start(), 500);
+        }
       };
+      recognitionRef.current.onresult = (event) => {
+        const transcript = Array.from(event.results)
+          .map(result => result[0].transcript)
+          .join('')
+          .toLowerCase();
+
+        // Si detecta palabra clave "asistente" y el chat está cerrado, abrirlo
+        if (transcript.includes('asistente') && !open) {
+          setOpen(true);
+          recognitionRef.current?.stop();
+        } else if (open) {
+          // Si el chat está abierto, captura el texto
+          const isFinal = event.results[event.results.length - 1].isFinal;
+          if (isFinal) {
+            setInput(transcript);
+          }
+        }
+      };
+
+      // Inicia el reconocimiento cuando se carga
+      recognitionRef.current.start();
     }
-  }, []);
+  }, [open]);
 
   // Auto-scroll to bottom
   useEffect(() => {
