@@ -18,6 +18,7 @@ import BackupManager from '../components/backup/BackupManager';
 import CorrectionMode from '../components/workspace/CorrectionMode';
 import VoiceControl from '../components/workspace/VoiceControl';
 import VoiceCommandGuide from '../components/workspace/VoiceCommandGuide';
+import VoiceAssistant from '../components/workspace/VoiceAssistant';
 
 export default function Workspace() {
   const { t } = useLanguage();
