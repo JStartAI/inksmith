@@ -27,6 +27,7 @@ export default function Workspace() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [inspectorOpen, setInspectorOpen] = useState(false);
   const [mobileSidebar, setMobileSidebar] = useState(false);
+  const [minimalMode, setMinimalMode] = useState(false);
 
   const { data: project } = useQuery({
     queryKey: ['project', projectId],
@@ -124,9 +125,9 @@ export default function Workspace() {
   }
 
   return (
-    <div className="h-screen flex flex-col overflow-hidden" style={{ background: '#1e2122' }}>
+    <div className="h-screen flex flex-col overflow-hidden" style={{ background: minimalMode ? '#0f0f0f' : '#1e2122' }}>
       {/* Toolbar */}
-      <header className="h-11 flex items-center justify-between px-2 flex-shrink-0" style={{ background: '#272b2c', borderBottom: '1px solid #363a3b' }}>
+      <header className={`h-11 flex items-center justify-between px-2 flex-shrink-0 transition-all duration-200 ${minimalMode ? 'opacity-0 h-0 pointer-events-none' : ''}`} style={{ background: '#272b2c', borderBottom: '1px solid #363a3b' }}>
         <div className="flex items-center gap-1">
           <button
             className="p-1.5 rounded hover:bg-black/10 text-[#9e9a94] hover:text-[#d8d4cc] transition-colors md:hidden"
@@ -216,7 +217,8 @@ export default function Workspace() {
         <div className={`
           ${mobileSidebar ? 'translate-x-0' : '-translate-x-full'}
           md:translate-x-0
-          ${sidebarOpen ? 'md:w-60 lg:w-64' : 'md:w-0 md:overflow-hidden'}
+          ${sidebarOpen && !minimalMode ? 'md:w-60 lg:w-64' : 'md:w-0 md:overflow-hidden'}
+          ${minimalMode ? 'hidden' : ''}
           fixed md:static inset-y-12 left-0 w-64 z-50 md:z-auto
           transition-all duration-200 flex-shrink-0
         `}>
@@ -236,6 +238,13 @@ export default function Workspace() {
             <Editor
               document={selectedDoc?.type === 'document' ? selectedDoc : null}
               onSave={handleSaveDoc}
+              onMinimalToggle={(isMinimal) => {
+                setMinimalMode(isMinimal);
+                if (isMinimal) {
+                  setSidebarOpen(false);
+                  setInspectorOpen(false);
+                }
+              }}
             />
           )}
           {viewMode === 'corkboard' && (
@@ -262,7 +271,7 @@ export default function Workspace() {
         </div>
 
         {/* Inspector */}
-        {inspectorOpen && selectedDoc?.type === 'document' && (
+        {inspectorOpen && selectedDoc?.type === 'document' && !minimalMode && (
           <div className="w-64 lg:w-72 flex-shrink-0 hidden md:block">
             <Inspector
               document={selectedDoc}
