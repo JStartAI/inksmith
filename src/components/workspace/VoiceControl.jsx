@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import { Mic, MicOff, Volume2 } from 'lucide-react';
-import { useSpeechRecognition } from '../../hooks/useSpeechRecognition';
+import { useVoiceRecognition } from '../useVoiceRecognition';
 
 export default function VoiceControl({ 
   onCommand, 
   onTranscript,
   enabled = true 
 }) {
-  const { isListening, transcript, interimTranscript, isSupported, startListening, stopListening, resetTranscript } = useSpeechRecognition();
+  const { isListening, transcript, interimTranscript, isSupported, startListening, stopListening, resetTranscript } = useVoiceRecognition();
 
   useEffect(() => {
     if (!transcript || !enabled) return;
