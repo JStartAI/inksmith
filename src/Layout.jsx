@@ -71,10 +71,12 @@ export default function Layout({ children }) {
         /* Quill editor styles */
         .ink-editor .ql-toolbar {
           border: none !important;
-          border-bottom: 1px solid #2a2a38 !important;
+          border-bottom: 1px solid #ccc !important;
           padding: 8px 16px !important;
-          background: #fafafa !important;
+          background: #f9f8f7 !important;
         }
+        .ink-editor .ql-toolbar button.ql-stroke { stroke: #333 !important; }
+        .ink-editor .ql-toolbar button.ql-fill { fill: #333 !important; }
         .ink-editor .ql-container {
           border: none !important;
           font-size: 16px;
@@ -84,14 +86,17 @@ export default function Layout({ children }) {
         .ink-editor .ql-editor {
           padding: 28px 40px !important;
           min-height: 70vh;
-          color: #1a1a1a;
+          color: #0f0f0f !important;
         }
         .ink-editor .ql-editor.ql-blank::before {
-          color: #aaa;
+          color: #999;
           font-style: normal;
           left: 40px;
         }
         .ink-editor .ql-editor p { margin-bottom: 0.6em; }
+        .ink-editor .ql-editor h1, 
+        .ink-editor .ql-editor h2, 
+        .ink-editor .ql-editor h3 { color: #0f0f0f !important; }
         
         @keyframes fadeIn {
           from { opacity: 0; transform: translateY(8px); }
