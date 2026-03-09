@@ -280,6 +280,12 @@ export default function Workspace() {
             onTranscript={handleVoiceTranscript}
           />
 
+          <VoiceAssistant 
+            projectId={projectId}
+            projectTitle={project?.title || ''}
+            onCommandExecute={handleVoiceCommand}
+          />
+
           <button
             className="p-1.5 rounded hover:bg-white/10 transition-colors"
             style={{ color: inspectorOpen ? '#7ba7bc' : '#9e9a94' }}
