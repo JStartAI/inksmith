@@ -10,7 +10,8 @@ function ThemeToggle() {
     <button
       onClick={toggle}
       title={dark ? 'Modo claro' : 'Modo oscuro'}
-      className="fixed top-4 right-4 z-50 w-9 h-9 flex items-center justify-center rounded-full border transition-colors"
+      className="fixed top-3 right-4 z-50 w-8 h-8 flex items-center justify-center border transition-colors"
+      style={{...{borderRadius:'2px'}}}
       style={{
         background: 'var(--surface)',
         borderColor: 'var(--border)',
