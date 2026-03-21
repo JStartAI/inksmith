@@ -120,17 +120,18 @@ export default function Binder({ documents, selectedId, onSelect, onAddChild, on
     : null;
 
   return (
-    <div className="h-full flex flex-col" style={{ background: '#1a1d1e', borderRight: '1px solid #2a2d2e' }}>
+    <div className="h-full flex flex-col" style={{ background: 'var(--bg-subtle)', borderRight: '1px solid var(--border)' }}>
       {/* Header */}
-      <div className="px-3 pt-3 pb-2" style={{ borderBottom: '1px solid #2a2d2e' }}>
-        <p className="text-[11px] font-bold uppercase tracking-widest text-[#ccc] mb-2 px-1">Binder</p>
+      <div className="px-3 pt-3 pb-2" style={{ borderBottom: '1px solid var(--border)' }}>
+        <p className="text-[10px] font-bold uppercase tracking-widest mb-2 px-1" style={{ color: 'var(--text-muted)' }}>Binder</p>
         <div className="relative">
-          <SearchIcon className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3 h-3 text-[#888]" />
+          <SearchIcon className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3 h-3" style={{ color: 'var(--text-muted)' }} />
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Buscar..."
-            className="w-full h-7 pl-7 pr-2 text-[12px] rounded-sm outline-none text-[#e0e0e0] placeholder-[#777] bg-[#262829] border border-[#3a3d3e]"
+            className="w-full h-7 pl-7 pr-2 text-[12px] rounded-sm outline-none"
+            style={{ background: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--text)' }}
           />
         </div>
       </div>
