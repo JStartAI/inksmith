@@ -32,12 +32,12 @@ function TreeNode({ doc, documents, selectedId, onSelect, onAddChild, onDelete, 
   return (
     <div>
       <div
-        className={`group flex items-center gap-1.5 py-[5px] px-2 cursor-pointer transition-colors text-sm rounded-sm ${
-          isSelected
-            ? 'bg-[#4a7a96] text-white'
-            : 'text-[#d0d0d0] hover:bg-[#2a2d2e] hover:text-[#fff]'
-        }`}
-        style={{ paddingLeft: `${depth * 14 + 8}px` }}
+        className="group flex items-center gap-1.5 py-[5px] px-2 cursor-pointer transition-colors text-sm rounded-sm"
+        style={{
+          paddingLeft: `${depth * 14 + 8}px`,
+          background: isSelected ? 'var(--text)' : 'transparent',
+          color: isSelected ? 'var(--accent-fg)' : 'var(--text)',
+        }}
         onClick={() => {
           if (isFolder) setExpanded(!expanded);
           onSelect(doc);
