@@ -122,16 +122,19 @@ export default function Binder({ documents, selectedId, onSelect, onAddChild, on
   return (
     <div className="h-full flex flex-col" style={{ background: 'var(--bg-subtle)', borderRight: '1px solid var(--border)' }}>
       {/* Header */}
-      <div className="px-3 pt-3 pb-2" style={{ borderBottom: '1px solid var(--border)' }}>
-        <p className="text-[10px] font-bold uppercase tracking-widest mb-2 px-1" style={{ color: 'var(--text-muted)' }}>Binder</p>
+      <div className="px-3 pt-4 pb-2.5" style={{ borderBottom: '1px solid var(--border)' }}>
+        <div className="flex items-center gap-2 mb-2.5 px-1">
+          <span className="text-[9px] font-bold uppercase tracking-[0.2em]" style={{ color: 'var(--text-muted)', fontFamily: "'Space Mono', monospace" }}>Binder</span>
+          <div className="flex-1 h-px" style={{ background: 'var(--border)' }} />
+        </div>
         <div className="relative">
           <SearchIcon className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3 h-3" style={{ color: 'var(--text-muted)' }} />
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Buscar..."
-            className="w-full h-7 pl-7 pr-2 text-[12px] rounded-sm outline-none"
-            style={{ background: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--text)' }}
+            className="w-full h-7 pl-7 pr-2 text-[12px] outline-none transition-colors"
+            style={{ background: 'var(--bg)', border: '1px solid var(--border)', color: 'var(--text)', borderRadius: '2px' }}
           />
         </div>
       </div>
