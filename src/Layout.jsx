@@ -11,8 +11,8 @@ function ThemeToggle() {
       onClick={toggle}
       title={dark ? 'Modo claro' : 'Modo oscuro'}
       className="fixed top-3 right-4 z-50 w-8 h-8 flex items-center justify-center border transition-colors"
-      style={{...{borderRadius:'2px'}}}
       style={{
+        borderRadius: '2px',
         background: 'var(--bg-subtle)',
         borderColor: 'var(--border)',
         color: 'var(--text-muted)',
