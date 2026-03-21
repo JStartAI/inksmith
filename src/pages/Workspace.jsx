@@ -253,19 +253,19 @@ export default function Workspace() {
           </div>
 
           <Link to={createPageUrl('Characters') + `?projectId=${projectId}`}>
-            <button className="flex items-center gap-1 px-2 py-1 rounded hover:bg-black/10 text-[#9e9a94] hover:text-[#d8d4cc] text-[12px] transition-colors hidden sm:flex">
+            <button className="flex items-center gap-1 px-2 py-1 rounded text-[12px] transition-colors hidden sm:flex" style={{ color: 'var(--text-muted)' }}>
               <Users className="w-3 h-3" />
               {t('workspace.characters')}
             </button>
           </Link>
           <Link to={createPageUrl('AIForge') + `?projectId=${projectId}`}>
-            <button className="flex items-center gap-1 px-2 py-1 rounded hover:bg-black/10 text-[#9e9a94] hover:text-[#d8d4cc] text-[12px] transition-colors hidden sm:flex">
+            <button className="flex items-center gap-1 px-2 py-1 rounded text-[12px] transition-colors hidden sm:flex" style={{ color: 'var(--text-muted)' }}>
               <Sparkles className="w-3 h-3" />
               {t('aiforge.title')}
             </button>
           </Link>
           <Link to={createPageUrl('Compiler') + `?projectId=${projectId}`}>
-            <button className="flex items-center gap-1 px-2 py-1 rounded hover:bg-black/10 text-[#9e9a94] hover:text-[#d8d4cc] text-[12px] transition-colors hidden sm:flex">
+            <button className="flex items-center gap-1 px-2 py-1 rounded text-[12px] transition-colors hidden sm:flex" style={{ color: 'var(--text-muted)' }}>
               <Download className="w-3 h-3" />
               {t('compiler.export')}
             </button>
