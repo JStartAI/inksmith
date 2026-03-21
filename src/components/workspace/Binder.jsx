@@ -142,14 +142,14 @@ export default function Binder({ documents, selectedId, onSelect, onAddChild, on
           filtered.map(doc => (
             <div
             key={doc.id}
-            className={`flex items-center gap-2 py-1.5 px-3 rounded-sm cursor-pointer text-[12.5px] ${
-              selectedId === doc.id
-                ? 'bg-[#4a7a96] text-white'
-                : 'text-[#d0d0d0] hover:bg-[#2a2d2e] hover:text-[#fff]'
-            }`}
+            className="flex items-center gap-2 py-1.5 px-3 rounded-sm cursor-pointer text-[12.5px] transition-colors"
+            style={{
+              background: selectedId === doc.id ? 'var(--text)' : 'transparent',
+              color: selectedId === doc.id ? 'var(--accent-fg)' : 'var(--text)',
+            }}
             onClick={() => { onSelect(doc); setSearch(''); }}
             >
-            <FileText className="w-3.5 h-3.5 text-[#aaa]" />
+            <FileText className="w-3.5 h-3.5" style={{ color: selectedId === doc.id ? 'var(--accent-fg)' : 'var(--text-muted)' }} />
             <span className="truncate">{doc.title}</span>
             </div>
           ))
