@@ -13,9 +13,9 @@ function ThemeToggle() {
       className="fixed top-3 right-4 z-50 w-8 h-8 flex items-center justify-center border transition-colors"
       style={{...{borderRadius:'2px'}}}
       style={{
-        background: 'var(--surface)',
+        background: 'var(--bg-subtle)',
         borderColor: 'var(--border)',
-        color: 'var(--text-secondary)',
+        color: 'var(--text-muted)',
       }}
     >
       {dark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
