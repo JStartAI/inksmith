@@ -171,11 +171,12 @@ export default function Binder({ documents, selectedId, onSelect, onAddChild, on
         )}
       </div>
 
-      {/* Footer word count */}
-      <div className="px-3 py-2" style={{ borderTop: '1px solid var(--border)' }}>
-        <p className="text-[10px] font-medium" style={{ color: 'var(--text-muted)' }}>
-          {documents.filter(d => d.type === 'document').length} documentos
+      {/* Footer */}
+      <div className="px-4 py-2 flex items-center justify-between" style={{ borderTop: '1px solid var(--border)' }}>
+        <p className="text-[9px] font-bold uppercase tracking-widest" style={{ color: 'var(--text-muted)', fontFamily: "'Space Mono', monospace" }}>
+          {documents.filter(d => d.type === 'document').length} docs
         </p>
+        <div className="w-1.5 h-1.5 rounded-full" style={{ background: 'var(--accent-warm)' }} />
       </div>
     </div>
   );
