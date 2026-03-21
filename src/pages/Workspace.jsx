@@ -224,7 +224,7 @@ export default function Workspace() {
               {t('common.back')}
             </button>
           </Link>
-          <span className="text-[12px] text-[#6e6a64] hidden md:inline ml-1">/ {project?.title}</span>
+          <span className="text-[12px] hidden md:inline ml-1" style={{ color: 'var(--text-muted)' }}>/ {project?.title}</span>
         </div>
 
         <div className="flex items-center gap-1">
