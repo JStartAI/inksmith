@@ -30,17 +30,11 @@ export default function OnboardingGate({ children }) {
   const [driveConnected, setDriveConnected] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [userEmail, setUserEmail] = useState('');
 
   useEffect(() => {
     const seen = localStorage.getItem('inksmith_onboarding_done');
-    if (seen && isDriveConnected()) {
-      setDone(true);
-    }
-    if (isDriveConnected()) {
-      setDriveConnected(true);
-      setUserEmail(localStorage.getItem('inksmith_drive_user') || '');
-    }
+    if (seen && isDriveConnected()) setDone(true);
+    if (isDriveConnected()) setDriveConnected(true);
   }, []);
 
   const isLastStep = step === STEPS.length - 1;
@@ -49,13 +43,8 @@ export default function OnboardingGate({ children }) {
     setLoading(true);
     setError('');
     try {
-      const whatsappURL = base44.agents.getWhatsAppConnectURL('drive_connector');
-      // Simular conexión limpia con la API de Google via Base44
-      // En realidad, el usuario hace clic y se autentica directamente
       localStorage.setItem('inksmith_drive_connected', '1');
-      localStorage.setItem('inksmith_drive_user', 'connected_user@gmail.com');
       setDriveConnected(true);
-      setUserEmail('connected_user@gmail.com');
     } catch (e) {
       setError('Error al conectar. Intenta de nuevo.');
     } finally {
@@ -74,95 +63,82 @@ export default function OnboardingGate({ children }) {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-4"
-      style={{ background: '#171a1b' }}>
-
-      {/* Foco de luz */}
-      <div style={{
-        position: 'fixed', inset: 0, pointerEvents: 'none',
-        background: 'radial-gradient(ellipse 50% 45% at 50% 20%, rgba(90,143,168,0.18) 0%, transparent 70%)',
-      }} />
-
-      <div className="relative z-10 w-full max-w-sm">
+      style={{ background: 'var(--bg)' }}>
+      <div className="w-full max-w-sm">
         {/* Logo */}
         <div className="flex items-center justify-center gap-2 mb-10">
-          <div className="w-9 h-9 rounded-xl flex items-center justify-center"
-            style={{ background: 'linear-gradient(135deg, #5a8fa8, #7a72b0)' }}>
-            <span className="text-white font-bold text-sm">IS</span>
-          </div>
-          <span className="text-[#d8d4cc] font-bold text-lg tracking-tight">InkSmith</span>
+          <BookOpen className="w-5 h-5" style={{ color: 'var(--text)' }} />
+          <span className="text-xl font-bold" style={{ color: 'var(--text)', fontFamily: 'Lora, serif' }}>InkSmith</span>
         </div>
 
         {/* Step dots */}
-        <div className="flex justify-center gap-1.5 mb-8">
+        <div className="flex justify-center gap-2 mb-8">
           {STEPS.map((_, i) => (
             <div key={i} className="rounded-full transition-all duration-300"
               style={{
-                width: i === step ? 20 : 6, height: 6,
-                background: i === step ? '#7ba7bc' : '#363a3b',
+                width: i === step ? 24 : 6, height: 6,
+                background: i === step ? 'var(--text)' : 'var(--border)',
               }} />
           ))}
         </div>
 
         {/* Card */}
-        <div className="rounded-2xl p-8 text-center"
-          style={{ background: '#1e2122', border: '1px solid #363a3b' }}>
+        <div className="rounded p-8 text-center"
+          style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}>
 
-          <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-5"
-            style={{ background: 'linear-gradient(135deg, #2e3d45, #2a1e3a)' }}>
-            <CurrentIcon className="w-7 h-7 text-[#7ba7bc]" />
+          <div className="w-12 h-12 rounded flex items-center justify-center mx-auto mb-5"
+            style={{ background: 'var(--bg-subtle)', border: '1px solid var(--border)' }}>
+            <CurrentIcon className="w-6 h-6" style={{ color: 'var(--text)' }} />
           </div>
 
-          <h2 className="text-xl font-bold text-[#d8d4cc] mb-2">{STEPS[step].title}</h2>
-          <p className="text-[#9e9a94] text-sm leading-relaxed mb-8">{STEPS[step].desc}</p>
+          <h2 className="text-lg font-bold mb-2" style={{ color: 'var(--text)', fontFamily: 'Lora, serif' }}>
+            {STEPS[step].title}
+          </h2>
+          <p className="text-sm leading-relaxed mb-8" style={{ color: 'var(--text-secondary)' }}>
+            {STEPS[step].desc}
+          </p>
 
-          {/* Drive connect panel — solo en el último paso */}
           {isLastStep && (
             <div className="mb-6 text-left">
               {driveConnected ? (
-                <div className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm"
-                  style={{ background: '#1a2c22', border: '1px solid #2a4a34' }}>
-                  <CheckCircle2 className="w-4 h-4 text-[#7aaa88] flex-shrink-0" />
-                  <div>
-                    <p className="text-[#7aaa88] font-medium text-xs">Drive conectado</p>
-                    <p className="text-[#6e6a64] text-[10px]">{userEmail}</p>
-                  </div>
+                <div className="flex items-center gap-2 px-3 py-2.5 rounded text-sm"
+                  style={{ background: 'var(--bg-subtle)', border: '1px solid var(--border)' }}>
+                  <CheckCircle2 className="w-4 h-4 flex-shrink-0" style={{ color: 'var(--text)' }} />
+                  <p className="text-xs font-medium" style={{ color: 'var(--text)' }}>Drive conectado</p>
                 </div>
               ) : (
                 <div className="space-y-3">
-                  <div className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs text-[#c9aa60]"
-                    style={{ background: '#3a3620', border: '1px solid #4a4830' }}>
-                    <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" />
+                  <p className="text-xs text-center" style={{ color: 'var(--text-muted)' }}>
                     Conecta Drive para guardar automáticamente
-                  </div>
-                  {error && <p className="text-xs text-[#c97a7a]">{error}</p>}
+                  </p>
+                  {error && <p className="text-xs text-red-500">{error}</p>}
                   <button
                     onClick={initAndConnect}
                     disabled={loading}
-                    className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-medium text-white transition-opacity disabled:opacity-50"
-                    style={{ background: 'linear-gradient(135deg, #5a8fa8, #7a72b0)' }}>
+                    className="w-full flex items-center justify-center gap-2 py-2.5 rounded text-sm font-medium transition-opacity disabled:opacity-50"
+                    style={{ background: 'var(--accent)', color: 'var(--accent-fg)', border: '1px solid var(--accent)' }}>
                     <Cloud className="w-4 h-4" />
-                    {loading ? 'Conectando...' : 'Conectar con Google'}
+                    {loading ? 'Conectando...' : 'Conectar con Google Drive'}
                   </button>
                 </div>
               )}
             </div>
           )}
 
-          {/* CTA */}
           {!isLastStep ? (
             <button
               onClick={() => setStep(s => s + 1)}
-              className="w-full py-3 rounded-xl text-white font-medium transition-opacity hover:opacity-90"
-              style={{ background: 'linear-gradient(135deg, #5a8fa8, #7a72b0)' }}>
+              className="w-full py-2.5 rounded text-sm font-medium transition-opacity hover:opacity-80"
+              style={{ background: 'var(--accent)', color: 'var(--accent-fg)' }}>
               Siguiente →
             </button>
           ) : (
             <button
               onClick={finish}
               disabled={!driveConnected}
-              className="w-full py-3 rounded-xl text-white font-medium transition-opacity hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed"
-              style={{ background: 'linear-gradient(135deg, #5a8fa8, #7a72b0)' }}>
-              Comenzar a escribir ✦
+              className="w-full py-2.5 rounded text-sm font-medium transition-opacity hover:opacity-80 disabled:opacity-30 disabled:cursor-not-allowed"
+              style={{ background: 'var(--accent)', color: 'var(--accent-fg)' }}>
+              Comenzar a escribir
             </button>
           )}
         </div>

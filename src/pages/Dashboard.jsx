@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Plus, BookOpen, FileText, Clock, MoreHorizontal, Settings, Trash2, Sparkles, ArrowRight } from 'lucide-react';
+import { Plus, BookOpen, FileText, Clock, MoreHorizontal, Settings, Trash2 } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { useLanguage } from '../components/i18n/LanguageContext';
@@ -13,12 +13,12 @@ import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 
-const statusColors = {
-  planning:  { bg: '#fef08a', text: '#78350f' },
-  drafting:  { bg: '#bfdbfe', text: '#0c2d6b' },
-  revising:  { bg: '#e9d5ff', text: '#4c0519' },
-  editing:   { bg: '#fed7aa', text: '#7c2d12' },
-  complete:  { bg: '#bbf7d0', text: '#022c22' },
+const STATUS_LABELS = {
+  planning: 'Planificando',
+  drafting: 'Borrando',
+  revising: 'Revisando',
+  editing: 'Editando',
+  complete: 'Completo',
 };
 
 export default function Dashboard() {
@@ -72,181 +72,136 @@ export default function Dashboard() {
 
   return (
     <OnboardingGate>
-    <div className="min-h-screen" style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%)' }}>
-      {/* Header */}
-      <header className="border-b" style={{ borderColor: '#334155', background: 'rgba(15, 23, 42, 0.8)', backdropFilter: 'blur(12px)' }}>
-        <div className="max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="w-11 h-11 rounded-lg bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center shadow-lg">
-              <Sparkles className="w-6 h-6 text-white" />
+      <div className="min-h-screen" style={{ background: 'var(--bg)' }}>
+        {/* Header */}
+        <header style={{ borderBottom: '1px solid var(--border)', background: 'var(--surface)' }}>
+          <div className="max-w-3xl mx-auto px-6 py-5 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <BookOpen className="w-5 h-5" style={{ color: 'var(--text)' }} />
+              <h1 className="text-xl font-bold tracking-tight" style={{ color: 'var(--text)', fontFamily: 'Lora, serif' }}>
+                InkSmith
+              </h1>
             </div>
-            <div>
-              <h1 className="text-2xl font-black text-white tracking-tight">InkSmith</h1>
-              <p className="text-xs text-blue-300 font-semibold tracking-widest uppercase">{t('app.tagline')}</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-3">
-            <LanguageSwitcher />
-            <Link to={createPageUrl('Settings')}>
-              <button className="p-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all">
-                <Settings className="w-5 h-5" />
+            <div className="flex items-center gap-3">
+              <LanguageSwitcher />
+              <Link to={createPageUrl('Settings')}>
+                <button
+                  className="p-2 rounded transition-colors"
+                  style={{ color: 'var(--text-muted)' }}
+                  title="Configuración"
+                >
+                  <Settings className="w-4 h-4" />
+                </button>
+              </Link>
+              <button
+                onClick={() => setShowNewProject(true)}
+                className="flex items-center gap-2 px-4 py-2 text-sm font-medium rounded border transition-colors"
+                style={{
+                  background: 'var(--accent)',
+                  color: 'var(--accent-fg)',
+                  borderColor: 'var(--accent)',
+                }}
+              >
+                <Plus className="w-4 h-4" />
+                {t('dashboard.newProject')}
               </button>
-            </Link>
-            <button
-              onClick={() => setShowNewProject(true)}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-white font-semibold text-sm transition-all hover:shadow-lg hover:scale-105 active:scale-95"
-              style={{ background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)' }}
-            >
-              <Plus className="w-4 h-4" />
-              <span className="hidden sm:inline">{t('dashboard.newProject')}</span>
-              <span className="sm:hidden">Nuevo</span>
-            </button>
+            </div>
           </div>
-        </div>
-      </header>
+        </header>
 
-      <main className="max-w-7xl mx-auto px-6 py-12">
-        {isLoading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-            {[1,2,3].map(i => (
-              <div key={i} className="h-64 rounded-xl animate-pulse" style={{ background: '#1e293b' }} />
-            ))}
-          </div>
-        ) : projects.length === 0 ? (
-          <EmptyState onNew={() => setShowNewProject(true)} t={t} />
-        ) : (
-          <>
-            {/* Stats grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12">
-              {[
-                { label: lang === 'es' ? 'Proyectos activos' : 'Active projects', value: projects.length, icon: BookOpen, color: 'from-blue-500 to-blue-600' },
-                { label: lang === 'es' ? 'Palabras totales' : 'Total words', value: totalWords.toLocaleString(), icon: FileText, color: 'from-purple-500 to-purple-600' },
-                { label: lang === 'es' ? 'Promedio por proyecto' : 'Avg per project', value: (projects.length ? Math.round(totalWords / projects.length) : 0).toLocaleString(), icon: Clock, color: 'from-pink-500 to-pink-600' },
-              ].map(({ label, value, icon: Icon, color }) => (
-                <div key={label} className="rounded-xl p-6 border" style={{ background: 'rgba(30, 41, 59, 0.5)', borderColor: '#475569' }}>
-                  <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${color} flex items-center justify-center mb-4`}>
-                    <Icon className="w-5 h-5 text-white" />
-                  </div>
-                  <p className="text-xs text-slate-400 font-semibold uppercase tracking-widest mb-2">{label}</p>
-                  <p className="text-3xl font-black text-white leading-none">{value}</p>
-                </div>
+        <main className="max-w-3xl mx-auto px-6 py-10">
+          {isLoading ? (
+            <div className="space-y-3">
+              {[1, 2, 3].map(i => (
+                <div key={i} className="h-20 rounded animate-pulse" style={{ background: 'var(--bg-subtle)' }} />
               ))}
             </div>
+          ) : projects.length === 0 ? (
+            <EmptyState onNew={() => setShowNewProject(true)} t={t} />
+          ) : (
+            <>
+              {/* Stats */}
+              <div className="flex gap-8 mb-10 pb-6" style={{ borderBottom: '1px solid var(--border)' }}>
+                <Stat label={lang === 'es' ? 'Proyectos' : 'Projects'} value={projects.length} />
+                <Stat label={lang === 'es' ? 'Palabras totales' : 'Total words'} value={totalWords.toLocaleString()} />
+              </div>
 
-            {/* Section title */}
-            <div className="mb-8">
-              <h2 className="text-2xl font-black text-white mb-2">{t('dashboard.projects')}</h2>
-              <div className="h-1 w-16 rounded-full" style={{ background: 'linear-gradient(90deg, #3b82f6, #8b5cf6)' }} />
-            </div>
+              {/* Projects list */}
+              <div className="space-y-1">
+                {projects.map(project => (
+                  <ProjectRow
+                    key={project.id}
+                    project={project}
+                    onDelete={(id) => deleteProject.mutate(id)}
+                  />
+                ))}
+              </div>
+            </>
+          )}
+        </main>
 
-            {/* Projects grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {projects.map(project => (
-                <ProjectCard
-                  key={project.id}
-                  project={project}
-                  onDelete={(id) => deleteProject.mutate(id)}
-                />
-              ))}
-            </div>
-          </>
-        )}
-      </main>
-
-      <NewProjectDialog
-        open={showNewProject}
-        onClose={() => setShowNewProject(false)}
-        onCreate={(data) => createProject.mutate(data)}
-      />
-    </div>
+        <NewProjectDialog
+          open={showNewProject}
+          onClose={() => setShowNewProject(false)}
+          onCreate={(data) => createProject.mutate(data)}
+        />
+      </div>
     </OnboardingGate>
   );
 }
 
-function ProjectCard({ project, onDelete }) {
-  const status = statusColors[project.status] || statusColors.planning;
+function Stat({ label, value }) {
+  return (
+    <div>
+      <p className="text-2xl font-bold" style={{ color: 'var(--text)', fontFamily: 'Lora, serif' }}>{value}</p>
+      <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>{label}</p>
+    </div>
+  );
+}
 
+function ProjectRow({ project, onDelete }) {
   return (
     <Link to={createPageUrl('Workspace') + `?projectId=${project.id}`}>
       <div
-        className="group relative rounded-xl p-6 transition-all duration-300 hover:translate-y-[-4px] cursor-pointer border h-full flex flex-col"
-        style={{ background: 'rgba(30, 41, 59, 0.6)', borderColor: '#475569' }}
+        className="group flex items-center gap-4 px-4 py-3 rounded transition-colors cursor-pointer"
+        style={{ borderBottom: '1px solid var(--border-subtle)' }}
+        onMouseEnter={e => e.currentTarget.style.background = 'var(--bg-subtle)'}
+        onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
       >
-        <div className="flex items-start justify-between mb-4">
-          <div className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 bg-gradient-to-br from-blue-500 to-purple-600">
-            <BookOpen className="w-6 h-6 text-white" />
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-bold px-3 py-1 rounded-full capitalize" style={{ background: status.bg, color: status.text }}>
-              {project.status?.replace(/_/g, ' ') || 'planning'}
-            </span>
-          </div>
+        <FileText className="w-4 h-4 flex-shrink-0" style={{ color: 'var(--text-muted)' }} />
+        <div className="flex-1 min-w-0">
+          <p className="font-medium text-sm truncate" style={{ color: 'var(--text)' }}>{project.title}</p>
+          {project.description && (
+            <p className="text-xs truncate mt-0.5" style={{ color: 'var(--text-muted)' }}>{project.description}</p>
+          )}
         </div>
-
-        <h3 className="text-lg font-black text-white mb-2 line-clamp-2 group-hover:text-blue-300 transition-colors">
-          {project.title}
-        </h3>
-        {project.description && (
-          <p className="text-sm text-slate-300 line-clamp-2 mb-4 leading-relaxed flex-grow">{project.description}</p>
-        )}
-
-        <div className="flex items-center gap-4 text-xs text-slate-400 mb-4 font-semibold">
-          <span className="flex items-center gap-1.5">
-            <FileText className="w-4 h-4" />
-            {(project.word_count || 0).toLocaleString()}w
+        <div className="flex items-center gap-4 flex-shrink-0">
+          <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
+            {(project.word_count || 0).toLocaleString()} palabras
           </span>
-          <span className="flex items-center gap-1.5">
-            <Clock className="w-4 h-4" />
+          <span className="text-xs hidden sm:inline" style={{ color: 'var(--text-muted)' }}>
             {moment(project.updated_date).fromNow()}
           </span>
-          <span className="ml-auto">
-            {project.language === 'es' ? '🇪🇸' : '🇬🇧'}
+          <span className="text-xs px-2 py-0.5 rounded border" style={{ color: 'var(--text-muted)', borderColor: 'var(--border)' }}>
+            {STATUS_LABELS[project.status] || project.status}
           </span>
         </div>
 
-        {project.target_word_count > 0 && (
-          <div className="mb-4">
-            <div className="flex justify-between items-center mb-2">
-              <span className="text-xs font-semibold text-slate-300">Progress</span>
-              <span className="text-xs text-slate-400">{Math.min(100, Math.round(((project.word_count || 0) / project.target_word_count) * 100))}%</span>
-            </div>
-            <div className="h-2 rounded-full overflow-hidden" style={{ background: '#334155' }}>
-              <div
-                className="h-full rounded-full transition-all duration-500"
-                style={{
-                  width: `${Math.min(100, ((project.word_count || 0) / project.target_word_count) * 100)}%`,
-                  background: 'linear-gradient(90deg, #3b82f6, #8b5cf6)',
-                }}
-              />
-            </div>
-          </div>
-        )}
-
-        <div className="flex items-center gap-2 text-blue-300 font-semibold text-sm opacity-0 group-hover:opacity-100 transition-opacity">
-          <span>Abrir</span>
-          <ArrowRight className="w-4 h-4" />
-        </div>
-
-        {/* Delete button */}
+        {/* Delete */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button
-              className="absolute top-4 right-4 p-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity text-slate-400 hover:text-white hover:bg-slate-700/50"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-              }}
+              className="opacity-0 group-hover:opacity-100 p-1.5 rounded transition-opacity"
+              style={{ color: 'var(--text-muted)' }}
+              onClick={e => { e.preventDefault(); e.stopPropagation(); }}
             >
               <MoreHorizontal className="w-4 h-4" />
             </button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="min-w-[140px]">
-            <DropdownMenuItem 
-              className="text-red-400 focus:text-red-300 focus:bg-red-950/30 cursor-pointer" 
-              onClick={(e) => {
-                e.stopPropagation();
-                onDelete(project.id);
-              }}
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem
+              className="text-red-500 cursor-pointer"
+              onClick={e => { e.stopPropagation(); onDelete(project.id); }}
             >
               <Trash2 className="w-3.5 h-3.5 mr-2" /> Eliminar
             </DropdownMenuItem>
@@ -259,18 +214,20 @@ function ProjectCard({ project, onDelete }) {
 
 function EmptyState({ onNew, t }) {
   return (
-    <div className="flex flex-col items-center justify-center py-32 px-6 text-center">
-      <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center mb-8 shadow-2xl">
-        <BookOpen className="w-12 h-12 text-white" />
-      </div>
-      <h2 className="text-3xl font-black text-white mb-3">{t('dashboard.emptyTitle')}</h2>
-      <p className="text-slate-400 text-base mb-10 max-w-sm leading-relaxed">{t('dashboard.emptySubtitle')}</p>
+    <div className="text-center py-24">
+      <BookOpen className="w-10 h-10 mx-auto mb-6" style={{ color: 'var(--text-muted)' }} />
+      <h2 className="text-xl font-bold mb-2" style={{ color: 'var(--text)', fontFamily: 'Lora, serif' }}>
+        {t('dashboard.emptyTitle')}
+      </h2>
+      <p className="text-sm mb-8 max-w-xs mx-auto leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+        {t('dashboard.emptySubtitle')}
+      </p>
       <button
         onClick={onNew}
-        className="flex items-center gap-2 px-8 py-3 rounded-lg text-white font-bold transition-all hover:shadow-lg hover:scale-105 active:scale-95"
-        style={{ background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)' }}
+        className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium rounded border"
+        style={{ background: 'var(--accent)', color: 'var(--accent-fg)', borderColor: 'var(--accent)' }}
       >
-        <Plus className="w-5 h-5" />
+        <Plus className="w-4 h-4" />
         {t('dashboard.newProject')}
       </button>
     </div>

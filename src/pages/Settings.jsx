@@ -1,84 +1,106 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
-import { ArrowLeft, Globe, Type } from 'lucide-react';
-import { Button } from "@/components/ui/button";
+import { ArrowLeft, Globe, Type, Sun, Moon } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLanguage } from '../components/i18n/LanguageContext';
+import { useTheme } from '../hooks/useTheme';
 import GoogleDriveConnector from '../components/backup/GoogleDriveConnector';
+
+function Section({ title, children }) {
+  return (
+    <div className="py-6" style={{ borderBottom: '1px solid var(--border)' }}>
+      <h2 className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: 'var(--text-muted)' }}>
+        {title}
+      </h2>
+      {children}
+    </div>
+  );
+}
 
 export default function Settings() {
   const { t, lang, setLang } = useLanguage();
+  const { dark, toggle } = useTheme();
 
   return (
-    <div className="min-h-screen bg-[var(--ink-bg)]">
-      <header className="border-b border-[var(--ink-border)] bg-white/80 backdrop-blur-xl sticky top-0 z-30">
+    <div className="min-h-screen" style={{ background: 'var(--bg)' }}>
+      <header style={{ borderBottom: '1px solid var(--border)', background: 'var(--surface)' }}>
         <div className="max-w-2xl mx-auto px-6 py-4 flex items-center gap-3">
           <Link to={createPageUrl('Dashboard')}>
-            <Button variant="ghost" size="sm" className="h-8 text-xs gap-1.5">
-              <ArrowLeft className="w-3 h-3" />
+            <button className="flex items-center gap-1.5 text-sm transition-colors" style={{ color: 'var(--text-secondary)' }}>
+              <ArrowLeft className="w-3.5 h-3.5" />
               {t('common.back')}
-            </Button>
+            </button>
           </Link>
-          <span className="text-sm font-semibold">{t('settings.title')}</span>
+          <span style={{ color: 'var(--border)' }}>·</span>
+          <span className="text-sm font-medium" style={{ color: 'var(--text)' }}>{t('settings.title')}</span>
         </div>
       </header>
 
-      <main className="max-w-2xl mx-auto px-6 py-8 space-y-6">
-        <Card className="border-[var(--ink-border)]">
-          <CardHeader>
-            <CardTitle className="text-base flex items-center gap-2">
-              <Globe className="w-4 h-4" />
-              {t('settings.language')}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Select value={lang} onValueChange={setLang}>
-              <SelectTrigger className="w-48 border-[var(--ink-border)]">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="en">🇬🇧 English</SelectItem>
-                <SelectItem value="es">🇪🇸 Español</SelectItem>
-              </SelectContent>
-            </Select>
-          </CardContent>
-        </Card>
+      <main className="max-w-2xl mx-auto px-6 py-8">
 
-        <Card className="border-[var(--ink-border)]">
-          <CardHeader>
-            <CardTitle className="text-base flex items-center gap-2">
-              <Type className="w-4 h-4" />
-              {t('settings.editorFont')}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-2 gap-3">
-              <button
-                onClick={() => localStorage.setItem('inksmith_font', 'sans')}
-                className="p-4 rounded-xl border border-[var(--ink-border)] hover:border-[var(--ink-accent)] text-left transition-all"
-              >
-                <p className="font-sans text-sm font-medium">{t('settings.sansSerif')}</p>
-                <p className="font-sans text-xs text-[var(--ink-text-muted)] mt-1">
-                  The quick brown fox jumps over the lazy dog
-                </p>
-              </button>
-              <button
-                onClick={() => localStorage.setItem('inksmith_font', 'serif')}
-                className="p-4 rounded-xl border border-[var(--ink-border)] hover:border-[var(--ink-accent)] text-left transition-all"
-              >
-                <p className="font-serif text-sm font-medium">{t('settings.serif')}</p>
-                <p className="font-serif text-xs text-[var(--ink-text-muted)] mt-1">
-                  The quick brown fox jumps over the lazy dog
-                </p>
-              </button>
+        <Section title="Apariencia">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium" style={{ color: 'var(--text)' }}>Tema</p>
+              <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>
+                {dark ? 'Modo oscuro — negro mate' : 'Modo claro — blanco'}
+              </p>
             </div>
-          </CardContent>
-        </Card>
+            <button
+              onClick={toggle}
+              className="flex items-center gap-2 px-4 py-2 text-sm rounded border transition-colors"
+              style={{
+                background: 'var(--surface)',
+                borderColor: 'var(--border)',
+                color: 'var(--text)',
+              }}
+            >
+              {dark ? <><Sun className="w-4 h-4" /> Modo claro</> : <><Moon className="w-4 h-4" /> Modo oscuro</>}
+            </button>
+          </div>
+        </Section>
 
-        <GoogleDriveConnector />
+        <Section title={t('settings.language')}>
+          <Select value={lang} onValueChange={setLang}>
+            <SelectTrigger className="w-48" style={{ borderColor: 'var(--border)', background: 'var(--surface)', color: 'var(--text)' }}>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="en">🇬🇧 English</SelectItem>
+              <SelectItem value="es">🇪🇸 Español</SelectItem>
+            </SelectContent>
+          </Select>
+        </Section>
+
+        <Section title={t('settings.editorFont')}>
+          <div className="grid grid-cols-2 gap-3">
+            {[
+              { key: 'serif', label: 'Serif', sample: 'El zorro marrón salta', family: 'Lora, Georgia, serif' },
+              { key: 'sans', label: 'Sin serif', sample: 'El zorro marrón salta', family: 'system-ui, sans-serif' },
+            ].map(({ key, label, sample, family }) => {
+              const active = (localStorage.getItem('inksmith_font') || 'serif') === key;
+              return (
+                <button
+                  key={key}
+                  onClick={() => localStorage.setItem('inksmith_font', key)}
+                  className="p-4 rounded text-left transition-colors"
+                  style={{
+                    border: `1px solid ${active ? 'var(--text)' : 'var(--border)'}`,
+                    background: active ? 'var(--bg-subtle)' : 'var(--surface)',
+                  }}
+                >
+                  <p className="text-sm font-medium mb-1" style={{ color: 'var(--text)', fontFamily: family }}>{label}</p>
+                  <p className="text-xs" style={{ color: 'var(--text-muted)', fontFamily: family }}>{sample}</p>
+                </button>
+              );
+            })}
+          </div>
+        </Section>
+
+        <Section title="Copia de seguridad">
+          <GoogleDriveConnector />
+        </Section>
       </main>
     </div>
   );
