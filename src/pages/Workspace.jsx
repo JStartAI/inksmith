@@ -228,7 +228,7 @@ export default function Workspace() {
         </div>
 
         <div className="flex items-center gap-1">
-          <div className="flex items-center rounded overflow-hidden mr-2" style={{ border: '1px solid #505558' }}>
+          <div className="flex items-center rounded overflow-hidden mr-2" style={{ border: '1px solid var(--border)' }}>
             {[
               { mode: 'editor', icon: PenLine, label: t('workspace.editor') },
               { mode: 'plot', icon: Sparkles, label: 'Trama' },
@@ -242,9 +242,9 @@ export default function Workspace() {
                 title={label}
                 className="p-1.5 transition-colors"
                 style={{
-                  background: viewMode === mode ? '#5a8fa8' : 'transparent',
-                  color: viewMode === mode ? '#fff' : '#9e9a94',
-                  borderRight: i < 4 ? '1px solid #505558' : 'none',
+                  background: viewMode === mode ? 'var(--text)' : 'transparent',
+                  color: viewMode === mode ? 'var(--accent-fg)' : 'var(--text-muted)',
+                  borderRight: i < 4 ? '1px solid var(--border)' : 'none',
                 }}
               >
                 <Icon className="w-3.5 h-3.5" />
