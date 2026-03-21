@@ -203,8 +203,8 @@ export default function Workspace() {
   }
 
   return (
-    <div className="h-screen flex flex-col overflow-hidden" style={{ background: minimalMode ? '#0f0f0f' : '#1e2122' }}>
-      <header className={`h-11 flex items-center justify-between px-2 flex-shrink-0 transition-all duration-200 ${minimalMode ? 'opacity-0 h-0 pointer-events-none' : ''}`} style={{ background: '#272b2c', borderBottom: '1px solid #363a3b' }}>
+    <div className="h-screen flex flex-col overflow-hidden" style={{ background: minimalMode ? 'var(--bg)' : 'var(--bg)' }}>
+      <header className={`h-11 flex items-center justify-between px-2 flex-shrink-0 transition-all duration-200 ${minimalMode ? 'opacity-0 h-0 pointer-events-none' : ''}`} style={{ background: 'var(--surface)', borderBottom: '1px solid var(--border)' }}>
         <div className="flex items-center gap-1">
           <button
             className="p-1.5 rounded hover:bg-black/10 text-[#9e9a94] hover:text-[#d8d4cc] transition-colors md:hidden"
