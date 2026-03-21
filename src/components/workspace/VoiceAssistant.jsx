@@ -126,33 +126,26 @@ export default function VoiceAssistant({ projectId, projectTitle, onCommandExecu
   return (
     <div className="fixed bottom-6 right-6 z-40 flex flex-col">
       {open && (
-        <div className="mb-4 w-96 max-w-[calc(100vw-2rem)] flex flex-col rounded-lg shadow-2xl" style={{ background: '#272b2c', border: '1px solid #363a3b', height: '500px' }}>
+        <div className="mb-3 w-80 max-w-[calc(100vw-2rem)] flex flex-col shadow-xl" style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '4px', height: '420px' }}>
           {/* Header */}
-          <div className="p-4 border-b" style={{ borderColor: '#363a3b' }}>
-            <div className="flex items-center justify-between">
-              <h3 className="font-semibold text-sm" style={{ color: '#d8d4cc' }}>Asistente de Escritura</h3>
-              <button
-                onClick={() => setOpen(false)}
-                className="p-1 rounded hover:bg-white/10 transition-colors"
-                style={{ color: '#9e9a94' }}
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
+          <div className="px-4 py-3 flex items-center justify-between" style={{ borderBottom: '1px solid var(--border)' }}>
+            <h3 className="text-sm font-semibold" style={{ color: 'var(--text)', fontFamily: 'Lora, serif' }}>Asistente</h3>
+            <button onClick={() => setOpen(false)} className="p-1 rounded transition-colors" style={{ color: 'var(--text-muted)' }}>
+              <X className="w-4 h-4" />
+            </button>
           </div>
 
           {/* Messages */}
-          <div
-            ref={scrollRef}
-            className="flex-1 overflow-y-auto p-4 space-y-3 scrollbar-thin"
-          >
+          <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-3">
             {messages.map(msg => (
               <div key={msg.id} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                 <div
-                  className="max-w-[80%] px-3 py-2 rounded-lg text-sm"
+                  className="max-w-[80%] px-3 py-2 text-sm leading-relaxed"
                   style={{
-                    background: msg.role === 'user' ? '#7ba7bc' : '#363a3b',
-                    color: msg.role === 'user' ? '#fff' : '#d8d4cc'
+                    background: msg.role === 'user' ? 'var(--text)' : 'var(--bg-subtle)',
+                    color: msg.role === 'user' ? 'var(--accent-fg)' : 'var(--text)',
+                    borderRadius: '3px',
+                    border: msg.role === 'user' ? 'none' : '1px solid var(--border)',
                   }}
                 >
                   {msg.content}
@@ -161,36 +154,36 @@ export default function VoiceAssistant({ projectId, projectTitle, onCommandExecu
             ))}
             {loading && (
               <div className="flex justify-start">
-                <div className="px-3 py-2 rounded-lg" style={{ background: '#363a3b' }}>
-                  <Loader className="w-4 h-4 animate-spin" style={{ color: '#7ba7bc' }} />
+                <div className="px-3 py-2" style={{ background: 'var(--bg-subtle)', border: '1px solid var(--border)', borderRadius: '3px' }}>
+                  <Loader className="w-4 h-4 animate-spin" style={{ color: 'var(--text-muted)' }} />
                 </div>
               </div>
             )}
           </div>
 
           {/* Input */}
-          <div className="p-3 border-t" style={{ borderColor: '#363a3b' }}>
-            <div className="flex gap-2">
+          <div className="p-3" style={{ borderTop: '1px solid var(--border)' }}>
+            <div className="flex gap-1">
               <input
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
                 placeholder="Escribe algo..."
-                className="flex-1 px-3 py-2 rounded text-sm focus:outline-none focus:ring-1"
+                className="flex-1 px-3 py-1.5 text-sm focus:outline-none"
                 style={{
-                  background: '#1e2122',
-                  color: '#d8d4cc',
-                  borderColor: '#505558',
-                  '--tw-ring-color': '#7ba7bc'
+                  background: 'var(--bg-subtle)',
+                  color: 'var(--text)',
+                  border: '1px solid var(--border)',
+                  borderRadius: '3px',
                 }}
                 disabled={loading}
               />
               <button
                 onClick={listening ? stopListening : startListening}
                 disabled={loading}
-                className="p-2 rounded hover:bg-white/10 transition-colors"
-                style={{ color: listening ? '#7ba7bc' : '#9e9a94' }}
+                className="p-1.5 rounded transition-colors"
+                style={{ color: listening ? 'var(--text)' : 'var(--text-muted)' }}
                 title={listening ? 'Detener' : 'Hablar'}
               >
                 <Mic className={`w-4 h-4 ${listening ? 'animate-pulse' : ''}`} />
@@ -198,8 +191,8 @@ export default function VoiceAssistant({ projectId, projectTitle, onCommandExecu
               <button
                 onClick={() => sendMessage()}
                 disabled={!input.trim() || loading}
-                className="p-2 rounded hover:bg-white/10 transition-colors disabled:opacity-50"
-                style={{ color: '#9e9a94' }}
+                className="p-1.5 rounded transition-colors disabled:opacity-30"
+                style={{ color: 'var(--text-muted)' }}
               >
                 <Send className="w-4 h-4" />
               </button>
@@ -211,10 +204,14 @@ export default function VoiceAssistant({ projectId, projectTitle, onCommandExecu
       {/* Toggle Button */}
       <button
         onClick={() => setOpen(!open)}
-        className="w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
-        style={{ background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)' }}
+        className="w-12 h-12 flex items-center justify-center shadow-lg transition-transform hover:scale-105 self-end"
+        style={{
+          background: 'var(--text)',
+          color: 'var(--accent-fg)',
+          borderRadius: '3px',
+        }}
       >
-        {open ? <X className="w-6 h-6 text-white" /> : <MessageCircle className="w-6 h-6 text-white" />}
+        {open ? <X className="w-5 h-5" /> : <MessageCircle className="w-5 h-5" />}
       </button>
     </div>
   );
