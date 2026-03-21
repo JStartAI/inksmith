@@ -55,7 +55,7 @@ function TreeNode({ doc, documents, selectedId, onSelect, onAddChild, onDelete, 
           {doc.title}
         </span>
         {doc.word_count > 0 && !isFolder && (
-          <span className={`text-[10px] tabular-nums flex-shrink-0 font-medium ${isSelected ? 'text-blue-100' : 'text-[#999]'}`}>
+          <span className="text-[10px] tabular-nums flex-shrink-0 font-medium" style={{ color: isSelected ? 'inherit' : 'var(--text-muted)' }}>
             {doc.word_count}
           </span>
         )}
