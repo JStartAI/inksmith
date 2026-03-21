@@ -281,8 +281,8 @@ export default function Workspace() {
           />
 
           <button
-            className="p-1.5 rounded hover:bg-white/10 transition-colors"
-            style={{ color: inspectorOpen ? '#7ba7bc' : '#9e9a94' }}
+            className="p-1.5 rounded transition-colors"
+            style={{ color: inspectorOpen ? 'var(--text)' : 'var(--text-muted)' }}
             onClick={() => setInspectorOpen(!inspectorOpen)}
           >
             <Layout className="w-3.5 h-3.5" />
