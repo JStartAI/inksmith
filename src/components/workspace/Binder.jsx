@@ -50,7 +50,7 @@ function TreeNode({ doc, documents, selectedId, onSelect, onAddChild, onDelete, 
         ) : (
           <span className="w-3.5" />
         )}
-        <Icon className={`w-3.5 h-3.5 flex-shrink-0 ${isSelected ? 'text-white' : 'text-[#aaa]'}`} />
+        <Icon className="w-3.5 h-3.5 flex-shrink-0" style={{ color: isSelected ? 'var(--accent-fg)' : 'var(--text-muted)' }} />
         <span className={`truncate flex-1 text-[12.5px] leading-none ${isFolder ? 'font-semibold' : ''}`}>
           {doc.title}
         </span>
