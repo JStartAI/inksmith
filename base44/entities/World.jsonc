@@ -1,0 +1,50 @@
+{
+  "name": "World",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Nombre del mundo"
+    },
+    "description": {
+      "type": "string",
+      "description": "Descripci\u00f3n del mundo"
+    },
+    "genre": {
+      "type": "string",
+      "enum": [
+        "Fantasy",
+        "Sci-Fi",
+        "Modern",
+        "Horror",
+        "Historical",
+        "Grimdark",
+        "Dark-Fantasy",
+        "Mythology",
+        "Alternate-History",
+        "Dystopian",
+        "Post-Apocalyptic",
+        "Survival",
+        "Western",
+        "Cyberpunk",
+        "Solarpunk",
+        "Steampunk",
+        "Cozy",
+        "Dark-Academia"
+      ],
+      "description": "G\u00e9nero principal del mundo"
+    },
+    "cover_image": {
+      "type": "string",
+      "description": "URL de la imagen de portada"
+    },
+    "onboarding_completed": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "name",
+    "genre"
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "name": "CardType",
+  "type": "object",
+  "properties": {
+    "world_id": {
+      "type": "string",
+      "description": "Referencia al mundo"
+    },
+    "name": {
+      "type": "string",
+      "description": "Nombre del tipo"
+    },
+    "icon": {
+      "type": "string",
+      "description": "Emoji o icono"
+    },
+    "color": {
+      "type": "string",
+      "description": "Color del tipo en hex"
+    },
+    "parent_type_id": {
+      "type": "string",
+      "description": "ID del tipo padre (para subtipos)"
+    },
+    "default_properties": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Propiedades por defecto del tipo"
+    },
+    "sort_order": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "required": [
+    "world_id",
+    "name"
+  ]
+}
