@@ -10,15 +10,14 @@ function ThemeToggle() {
     <button
       onClick={toggle}
       title={dark ? 'Modo claro' : 'Modo oscuro'}
-      className="fixed top-3 right-4 z-50 w-8 h-8 flex items-center justify-center border transition-colors"
+      className="fixed top-3 right-4 z-50 w-8 h-8 flex items-center justify-center rounded-lg transition-colors"
       style={{
-        borderRadius: '2px',
         background: 'var(--bg-subtle)',
-        borderColor: 'var(--border)',
+        border: '1px solid var(--border)',
         color: 'var(--text-muted)',
       }}
     >
-      {dark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+      {dark ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
     </button>
   );
 }
@@ -31,11 +30,9 @@ export default function Layout({ children, currentPageName }) {
 
   return (
     <LanguageProvider>
-      <div className="min-h-screen relative" style={{ background: 'var(--bg)', color: 'var(--text)' }}>
+      <div className="min-h-screen relative" style={{ background: 'var(--bg)', color: 'var(--text)', fontFamily: "'Inter', system-ui, sans-serif" }}>
         <ThemeToggle />
         {children}
-
-        {/* Global Voice Assistant */}
         <div className="fixed bottom-6 right-6 z-40">
           <VoiceAssistant
             projectId={getProjectIdFromUrl() || ''}

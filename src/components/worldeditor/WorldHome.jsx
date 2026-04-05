@@ -36,7 +36,7 @@ export default function WorldHome({ world, worldId }) {
       <div className="max-w-3xl mx-auto">
         {/* Welcome */}
         <div className="mb-10">
-          <h1 className="text-3xl font-bold mb-1" style={{ fontFamily: 'Lora, serif' }}>
+          <h1 className="text-3xl font-bold mb-1" style={{ fontFamily: 'Inter, sans-serif', letterSpacing: '-0.02em' }}>
             Bienvenido a {world?.name}
           </h1>
           {world?.description && (
@@ -52,7 +52,7 @@ export default function WorldHome({ world, worldId }) {
                 <Icon className="w-4 h-4" style={{ color: 'var(--text-muted)' }} />
                 <span className="text-xs" style={{ color: 'var(--text-muted)', fontFamily: "'Space Mono', monospace" }}>{label}</span>
               </div>
-              <span className="text-3xl font-bold" style={{ fontFamily: 'Lora, serif' }}>{value}</span>
+              <span className="text-3xl font-bold" style={{ fontFamily: 'Inter, sans-serif', letterSpacing: '-0.03em' }}>{value}</span>
             </div>
           ))}
         </div>

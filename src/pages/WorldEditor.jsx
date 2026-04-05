@@ -44,7 +44,7 @@ export default function WorldEditor() {
         <button
           onClick={() => navigate('/worlds')}
           className="flex items-center gap-2 text-sm hover:opacity-70 transition-opacity"
-          style={{ fontFamily: 'Lora, serif' }}
+          style={{ fontFamily: 'Inter, sans-serif' }}
         >
           <Globe className="w-4 h-4" style={{ color: 'var(--text-muted)' }} />
           <span className="font-medium">{world?.name || '...'}</span>
@@ -65,7 +65,7 @@ export default function WorldEditor() {
               style={{
                 color: activeTab === id ? 'var(--text)' : 'var(--text-muted)',
                 background: activeTab === id ? 'var(--bg-subtle)' : 'transparent',
-                borderRadius: '3px',
+                borderRadius: '6px',
               }}
             >
               <Icon className="w-3.5 h-3.5" />

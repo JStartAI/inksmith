@@ -54,13 +54,13 @@ export default function Worlds() {
       <div className="max-w-5xl mx-auto px-6 py-12">
         <div className="flex items-end justify-between mb-10">
           <div>
-            <h1 className="text-3xl font-bold mb-1" style={{ fontFamily: 'Lora, serif' }}>Tus Mundos</h1>
+            <h1 className="text-3xl font-bold mb-1">Tus Mundos</h1>
             <p className="text-sm" style={{ color: 'var(--text-muted)' }}>Cada mundo es un universo narrativo propio</p>
           </div>
           <button
             onClick={() => setShowOnboarding(true)}
             className="flex items-center gap-2 px-4 py-2 text-sm font-medium transition-colors"
-            style={{ background: 'var(--text)', color: 'var(--accent-fg)', borderRadius: '3px' }}
+            style={{ background: 'var(--accent)', color: 'var(--accent-fg)', borderRadius: '8px' }}
           >
             <Plus className="w-4 h-4" />
             Nuevo mundo
@@ -74,12 +74,12 @@ export default function Worlds() {
         ) : worlds.length === 0 ? (
           <div className="text-center py-24">
             <Globe className="w-16 h-16 mx-auto mb-4 opacity-20" style={{ color: 'var(--text)' }} />
-            <h2 className="text-xl mb-2" style={{ fontFamily: 'Lora, serif' }}>No hay mundos aún</h2>
+            <h2 className="text-xl mb-2">No hay mundos aún</h2>
             <p className="text-sm mb-6" style={{ color: 'var(--text-muted)' }}>Crea tu primer universo narrativo</p>
             <button
               onClick={() => setShowOnboarding(true)}
               className="px-6 py-2.5 text-sm font-medium transition-colors"
-              style={{ background: 'var(--text)', color: 'var(--accent-fg)', borderRadius: '3px' }}
+              style={{ background: 'var(--accent)', color: 'var(--accent-fg)', borderRadius: '8px' }}
             >
               Crear mi primer mundo
             </button>
@@ -91,7 +91,7 @@ export default function Worlds() {
                 key={world.id}
                 onClick={() => navigate(`/world-editor?worldId=${world.id}`)}
                 className="group relative cursor-pointer overflow-hidden transition-transform hover:-translate-y-0.5"
-                style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '4px' }}
+                style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '12px' }}
               >
                 <div
                   className="h-32 flex items-center justify-center relative"
@@ -112,7 +112,7 @@ export default function Worlds() {
                   </span>
                 </div>
                 <div className="p-4">
-                  <h3 className="font-semibold mb-1" style={{ fontFamily: 'Lora, serif' }}>{world.name}</h3>
+                  <h3 className="font-semibold mb-1">{world.name}</h3>
                   {world.description && (
                     <p className="text-xs line-clamp-2 mb-1.5" style={{ color: 'var(--text-muted)' }}>{world.description}</p>
                   )}

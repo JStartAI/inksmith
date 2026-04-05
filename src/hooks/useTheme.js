@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 
 export function useTheme() {
   const [dark, setDark] = useState(() => {
-    return localStorage.getItem('inksmith_theme') === 'dark';
+    const saved = localStorage.getItem('inksmith_theme');
+    return saved ? saved === 'dark' : true; // dark by default
   });
 
   useEffect(() => {
