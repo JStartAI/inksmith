@@ -1,7 +1,7 @@
 import React from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
-import { Clock, Layers, FileText } from 'lucide-react';
+import { Clock, Layers, FileText, Pin, EyeOff } from 'lucide-react';
 
 export default function WorldHome({ world, worldId }) {
   const { data: cards = [] } = useQuery({
@@ -12,11 +12,23 @@ export default function WorldHome({ world, worldId }) {
 
   const recentCards = [...cards]
     .sort((a, b) => new Date(b.updated_date) - new Date(a.updated_date))
-    .slice(0, 3);
+    .slice(0, 5);
+
+  const pinnedCards = cards.filter(c => c.pinned);
+  const hiddenCount = cards.filter(c => c.wiki_visible === false).length;
+  const typeBreakdown = Object.entries(
+    cards.reduce((acc, c) => {
+      const k = (c.type_icon || '📄') + ' ' + (c.type_name || 'Sin tipo');
+      acc[k] = (acc[k] || 0) + 1;
+      return acc;
+    }, {})
+  ).sort((a, b) => b[1] - a[1]);
 
   const stats = [
-    { label: 'Fichas', value: cards.length, Icon: FileText },
+    { label: 'Total fichas', value: cards.length, Icon: FileText },
     { label: 'Tipos activos', value: new Set(cards.map(c => c.type_name).filter(Boolean)).size, Icon: Layers },
+    { label: 'Fijadas', value: pinnedCards.length, Icon: Pin },
+    { label: 'Ocultas en wiki', value: hiddenCount, Icon: EyeOff },
   ];
 
   return (
@@ -33,7 +45,7 @@ export default function WorldHome({ world, worldId }) {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-2 gap-4 mb-10">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
           {stats.map(({ label, value, Icon }) => (
             <div key={label} className="p-4" style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '4px' }}>
               <div className="flex items-center gap-2 mb-1">
@@ -45,10 +57,55 @@ export default function WorldHome({ world, worldId }) {
           ))}
         </div>
 
+        {/* Type breakdown */}
+        {typeBreakdown.length > 0 && (
+          <div className="mb-10">
+            <h2 className="text-xs font-medium mb-3 flex items-center gap-2" style={{ color: 'var(--text-muted)', fontFamily: "'Space Mono', monospace", textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+              <Layers className="w-3.5 h-3.5" />
+              Distribución por tipo
+            </h2>
+            <div className="space-y-2">
+              {typeBreakdown.map(([label, count]) => (
+                <div key={label} className="flex items-center gap-3">
+                  <span className="text-sm w-40 truncate" style={{ color: 'var(--text-secondary)' }}>{label}</span>
+                  <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ background: 'var(--bg-subtle)' }}>
+                    <div
+                      className="h-full rounded-full transition-all"
+                      style={{ width: `${(count / cards.length) * 100}%`, background: 'var(--text-muted)' }}
+                    />
+                  </div>
+                  <span className="text-xs w-6 text-right" style={{ color: 'var(--text-muted)', fontFamily: "'Space Mono', monospace" }}>{count}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Pinned */}
+        {pinnedCards.length > 0 && (
+          <div className="mb-10">
+            <h2 className="text-xs font-medium mb-3 flex items-center gap-2" style={{ color: 'var(--text-muted)', fontFamily: "'Space Mono', monospace", textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+              <Pin className="w-3.5 h-3.5" />
+              Fijadas
+            </h2>
+            <div className="grid grid-cols-2 gap-2">
+              {pinnedCards.map(card => (
+                <div key={card.id} className="flex items-center gap-2 p-3" style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '4px' }}>
+                  <span className="text-base">{card.type_icon || '📄'}</span>
+                  <div className="min-w-0">
+                    <p className="text-sm font-medium truncate" style={{ fontFamily: 'Lora, serif' }}>{card.name}</p>
+                    <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{card.type_name}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Recent */}
         {recentCards.length > 0 && (
           <div>
-            <h2 className="text-sm font-medium mb-3 flex items-center gap-2" style={{ color: 'var(--text-muted)', fontFamily: "'Space Mono', monospace", textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+            <h2 className="text-xs font-medium mb-3 flex items-center gap-2" style={{ color: 'var(--text-muted)', fontFamily: "'Space Mono', monospace", textTransform: 'uppercase', letterSpacing: '0.08em' }}>
               <Clock className="w-3.5 h-3.5" />
               Recientes
             </h2>
@@ -75,7 +132,7 @@ export default function WorldHome({ world, worldId }) {
 
         {cards.length === 0 && (
           <div className="text-center py-12" style={{ color: 'var(--text-muted)' }}>
-            <p className="text-sm">Ve a la pestaña <strong style={{ color: 'var(--text)' }}>Mundo</strong> para crear tus primeras fichas</p>
+            <p className="text-sm">Ve a la pestaña <strong style={{ color: 'var(--text)' }}>Fichas</strong> para crear tus primeras fichas</p>
           </div>
         )}
       </div>

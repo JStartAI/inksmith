@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Globe, Trash2, Clock } from 'lucide-react';
+import { Plus, Globe, Trash2, Clock, FileText } from 'lucide-react';
 import WorldOnboarding from '../components/worlds/WorldOnboarding';
 
 const GENRE_COLORS = {
@@ -18,6 +18,16 @@ export default function Worlds() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [showOnboarding, setShowOnboarding] = useState(false);
+
+  const { data: allCards = [] } = useQuery({
+    queryKey: ['allCards'],
+    queryFn: () => base44.entities.Card.list('-created_date', 500),
+  });
+
+  const cardCountByWorld = allCards.reduce((acc, c) => {
+    acc[c.world_id] = (acc[c.world_id] || 0) + 1;
+    return acc;
+  }, {});
 
   const { data: worlds = [], isLoading } = useQuery({
     queryKey: ['worlds'],
@@ -104,11 +114,17 @@ export default function Worlds() {
                 <div className="p-4">
                   <h3 className="font-semibold mb-1" style={{ fontFamily: 'Lora, serif' }}>{world.name}</h3>
                   {world.description && (
-                    <p className="text-xs line-clamp-2 mb-2" style={{ color: 'var(--text-muted)' }}>{world.description}</p>
+                    <p className="text-xs line-clamp-2 mb-1.5" style={{ color: 'var(--text-muted)' }}>{world.description}</p>
                   )}
-                  <div className="flex items-center gap-1 text-xs" style={{ color: 'var(--text-muted)' }}>
-                    <Clock className="w-3 h-3" />
-                    {new Date(world.created_date).toLocaleDateString('es-ES')}
+                  <div className="flex items-center gap-3 text-xs" style={{ color: 'var(--text-muted)' }}>
+                    <span className="flex items-center gap-1">
+                      <Clock className="w-3 h-3" />
+                      {new Date(world.created_date).toLocaleDateString('es-ES')}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <FileText className="w-3 h-3" />
+                      {cardCountByWorld[world.id] || 0} fichas
+                    </span>
                   </div>
                 </div>
                 <button
