@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { base44 } from '@/api/base44Client';
-import { useMutation } from '@tanstack/react-query';
-import { Trash2, Plus, Eye, EyeOff, X, Check } from 'lucide-react';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { Trash2, Plus, Eye, EyeOff, X } from 'lucide-react';
 import ReactQuill from 'react-quill';
 
 const PROPERTY_TYPES = ['Texto', 'Número', 'Enlace', 'Referencia'];
@@ -23,8 +23,15 @@ export default function CardEditor({ card, worldId, cardTypes, onUpdate, onDelet
   const [newAlias, setNewAlias] = useState('');
   const [properties, setProperties] = useState(card.properties || []);
   const [wikiVisible, setWikiVisible] = useState(card.wiki_visible !== false);
-  const [saveStatus, setSaveStatus] = useState('saved'); // 'saved' | 'saving' | 'unsaved'
+  const [saveStatus, setSaveStatus] = useState('saved');
   const saveTimer = useRef(null);
+
+  const { data: allCards = [] } = useQuery({
+    queryKey: ['cards', worldId],
+    queryFn: () => base44.entities.Card.filter({ world_id: worldId }),
+    enabled: !!worldId,
+  });
+  const otherCards = allCards.filter(c => c.id !== card.id);
 
   const updateCard = useMutation({
     mutationFn: (data) => base44.entities.Card.update(card.id, data),
@@ -43,7 +50,6 @@ export default function CardEditor({ card, worldId, cardTypes, onUpdate, onDelet
     }, 1200);
   };
 
-  // Sync when card changes from outside
   useEffect(() => {
     setName(card.name || '');
     setContent(card.content || '');
@@ -51,6 +57,7 @@ export default function CardEditor({ card, worldId, cardTypes, onUpdate, onDelet
     setAliases(card.aliases || []);
     setProperties(card.properties || []);
     setWikiVisible(card.wiki_visible !== false);
+    setSaveStatus('saved');
   }, [card.id]);
 
   useEffect(() => { return () => clearTimeout(saveTimer.current); }, []);
@@ -97,16 +104,16 @@ export default function CardEditor({ card, worldId, cardTypes, onUpdate, onDelet
         </div>
         <div className="flex items-center gap-2">
           <span className="text-xs" style={{ color: 'var(--text-muted)', fontFamily: "'Space Mono', monospace" }}>
-            {saveStatus === 'saving' ? 'Guardando...' : saveStatus === 'saved' ? '✓ Guardado' : '•••'}
+            {saveStatus === 'saving' ? 'Guardando...' : saveStatus === 'saved' ? '✓ Guardado' : '···'}
           </span>
           <button
-            onClick={() => { setWikiVisible(!wikiVisible); triggerSave({ wiki_visible: !wikiVisible }); }}
+            onClick={() => { const v = !wikiVisible; setWikiVisible(v); triggerSave({ wiki_visible: v }); }}
             title={wikiVisible ? 'Visible en wiki' : 'Oculto en wiki'}
             style={{ color: 'var(--text-muted)' }}
           >
             {wikiVisible ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
           </button>
-          <button onClick={onDelete} style={{ color: 'var(--text-muted)' }} className="hover:text-red-500 transition-colors">
+          <button onClick={onDelete} style={{ color: 'var(--text-muted)' }} className="hover:opacity-60 transition-opacity">
             <Trash2 className="w-4 h-4" />
           </button>
         </div>
@@ -127,21 +134,19 @@ export default function CardEditor({ card, worldId, cardTypes, onUpdate, onDelet
         {/* Aliases */}
         <div className="mb-5">
           <p className="text-xs mb-2 font-medium" style={{ color: 'var(--text-muted)', fontFamily: "'Space Mono', monospace", textTransform: 'uppercase', letterSpacing: '0.06em' }}>Aliases</p>
-          <div className="flex flex-wrap gap-1.5 mb-2">
+          <div className="flex flex-wrap gap-1.5">
             {aliases.map((alias, i) => (
               <AliasTag key={i} alias={alias} onRemove={() => removeAlias(i)} />
             ))}
-            <div className="flex items-center gap-1">
-              <input
-                type="text"
-                value={newAlias}
-                onChange={e => setNewAlias(e.target.value)}
-                onKeyDown={e => e.key === 'Enter' && addAlias()}
-                placeholder="+ Añadir alias"
-                className="text-xs bg-transparent focus:outline-none"
-                style={{ color: 'var(--text-muted)', width: '100px' }}
-              />
-            </div>
+            <input
+              type="text"
+              value={newAlias}
+              onChange={e => setNewAlias(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && addAlias()}
+              placeholder="+ Añadir alias"
+              className="text-xs bg-transparent focus:outline-none"
+              style={{ color: 'var(--text-muted)', width: '110px' }}
+            />
           </div>
         </div>
 
@@ -167,27 +172,57 @@ export default function CardEditor({ card, worldId, cardTypes, onUpdate, onDelet
             </button>
           </div>
           {properties.length === 0 && (
-            <p className="text-xs italic" style={{ color: 'var(--text-muted)' }}>Sin propiedades</p>
+            <p className="text-xs italic" style={{ color: 'var(--text-muted)' }}>Sin propiedades — pulsa Añadir para crear una</p>
           )}
           <div className="space-y-2">
             {properties.map((prop, i) => (
-              <div key={i} className="flex items-center gap-2">
+              <div key={i} className="flex items-center gap-2 py-1" style={{ borderBottom: '1px solid var(--border-subtle)' }}>
                 <input
                   type="text"
                   value={prop.name}
                   onChange={e => updateProperty(i, 'name', e.target.value)}
-                  className="text-xs font-medium bg-transparent focus:outline-none w-28 flex-shrink-0"
+                  className="text-xs font-medium bg-transparent focus:outline-none w-24 flex-shrink-0"
                   style={{ color: 'var(--text-secondary)' }}
                 />
+                <select
+                  value={prop.type || 'Texto'}
+                  onChange={e => updateProperty(i, 'type', e.target.value)}
+                  className="text-xs bg-transparent focus:outline-none flex-shrink-0"
+                  style={{ color: 'var(--text-muted)', width: '72px', background: 'var(--bg-subtle)', borderRadius: '2px', padding: '1px 2px' }}
+                >
+                  {PROPERTY_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
+                </select>
                 <span style={{ color: 'var(--border)' }}>·</span>
-                <input
-                  type="text"
-                  value={prop.value}
-                  onChange={e => updateProperty(i, 'value', e.target.value)}
-                  placeholder="Valor..."
-                  className="flex-1 text-sm bg-transparent focus:outline-none"
-                  style={{ color: 'var(--text)' }}
-                />
+                {prop.type === 'Referencia' ? (
+                  <select
+                    value={prop.ref_card_id || ''}
+                    onChange={e => {
+                      const ref = otherCards.find(c => c.id === e.target.value);
+                      const updated = properties.map((p, idx) => idx === i
+                        ? { ...p, ref_card_id: e.target.value, value: ref ? ref.name : '' }
+                        : p
+                      );
+                      setProperties(updated);
+                      triggerSave({ properties: updated });
+                    }}
+                    className="flex-1 text-sm focus:outline-none"
+                    style={{ color: 'var(--text)', background: 'var(--bg-subtle)', borderRadius: '2px', padding: '1px 4px' }}
+                  >
+                    <option value="">Seleccionar ficha...</option>
+                    {otherCards.map(c => (
+                      <option key={c.id} value={c.id}>{c.type_icon} {c.name}</option>
+                    ))}
+                  </select>
+                ) : (
+                  <input
+                    type="text"
+                    value={prop.value || ''}
+                    onChange={e => updateProperty(i, 'value', e.target.value)}
+                    placeholder="Valor..."
+                    className="flex-1 text-sm bg-transparent focus:outline-none"
+                    style={{ color: 'var(--text)' }}
+                  />
+                )}
                 <button onClick={() => removeProperty(i)} className="flex-shrink-0 hover:opacity-70" style={{ color: 'var(--text-muted)' }}>
                   <X className="w-3 h-3" />
                 </button>
