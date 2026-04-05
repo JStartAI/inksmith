@@ -2,10 +2,13 @@ import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { Globe, Home, BookOpen, Network } from 'lucide-react';
+import { Globe, Home, BookOpen, Network, BookMarked, Tag, Download } from 'lucide-react';
 import WorldGraph from '../components/worldeditor/WorldGraph';
 import WorldHome from '../components/worldeditor/WorldHome';
 import WorldCards from '../components/worldeditor/WorldCards';
+import WikiView from '../components/worldeditor/WikiView';
+import CardTypeManager from '../components/worldeditor/CardTypeManager';
+import WorldExport from '../components/worldeditor/WorldExport';
 
 export default function WorldEditor() {
   const navigate = useNavigate();
@@ -26,9 +29,11 @@ export default function WorldEditor() {
 
   const tabs = [
     { id: 'home', label: 'Inicio', Icon: Home },
-    { id: 'world', label: 'Mundo', Icon: Globe },
+    { id: 'world', label: 'Fichas', Icon: Globe },
+    { id: 'wiki', label: 'Wiki', Icon: BookMarked },
     { id: 'graph', label: 'Grafo', Icon: Network },
-    { id: 'writing', label: 'Escritura', Icon: BookOpen },
+    { id: 'types', label: 'Tipos', Icon: Tag },
+    { id: 'export', label: 'Exportar', Icon: Download },
   ];
 
   return (
@@ -77,15 +82,10 @@ export default function WorldEditor() {
       <div className="flex-1 overflow-hidden">
         {activeTab === 'home' && <WorldHome world={world} worldId={worldId} />}
         {activeTab === 'world' && <WorldCards worldId={worldId} />}
+        {activeTab === 'wiki' && <WikiView worldId={worldId} />}
         {activeTab === 'graph' && <WorldGraph worldId={worldId} />}
-        {activeTab === 'writing' && (
-          <div className="flex items-center justify-center h-full">
-            <div className="text-center">
-              <BookOpen className="w-12 h-12 mx-auto mb-3 opacity-20" />
-              <p style={{ color: 'var(--text-muted)' }}>Próximamente — Editor de escritura</p>
-            </div>
-          </div>
-        )}
+        {activeTab === 'types' && <CardTypeManager worldId={worldId} />}
+        {activeTab === 'export' && <WorldExport worldId={worldId} worldName={world?.name} />}
       </div>
     </div>
   );
