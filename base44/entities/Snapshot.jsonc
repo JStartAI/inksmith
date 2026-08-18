@@ -1,0 +1,30 @@
+{
+  "name": "Snapshot",
+  "type": "object",
+  "properties": {
+    "document_id": {
+      "type": "string",
+      "description": "Reference to parent document"
+    },
+    "project_id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string",
+      "description": "Snapshot label"
+    },
+    "content": {
+      "type": "string",
+      "description": "Frozen content at time of snapshot"
+    },
+    "word_count": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "required": [
+    "document_id",
+    "title",
+    "content"
+  ]
+}

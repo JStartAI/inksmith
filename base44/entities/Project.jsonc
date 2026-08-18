@@ -1,0 +1,60 @@
+{
+  "name": "Project",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Project title"
+    },
+    "description": {
+      "type": "string",
+      "description": "Brief project description"
+    },
+    "language": {
+      "type": "string",
+      "enum": [
+        "es",
+        "en"
+      ],
+      "default": "en",
+      "description": "Project language"
+    },
+    "word_count": {
+      "type": "number",
+      "default": 0,
+      "description": "Total word count across all documents"
+    },
+    "target_word_count": {
+      "type": "number",
+      "description": "Target word count goal"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "planning",
+        "drafting",
+        "revising",
+        "editing",
+        "complete"
+      ],
+      "default": "planning"
+    },
+    "template": {
+      "type": "string",
+      "enum": [
+        "blank",
+        "novel",
+        "screenplay",
+        "nonfiction"
+      ],
+      "default": "blank"
+    },
+    "settings": {
+      "type": "object",
+      "description": "Project-specific settings like font preferences"
+    }
+  },
+  "required": [
+    "title"
+  ]
+}

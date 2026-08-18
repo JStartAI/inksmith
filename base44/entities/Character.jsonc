@@ -1,0 +1,84 @@
+{
+  "name": "Character",
+  "type": "object",
+  "properties": {
+    "project_id": {
+      "type": "string",
+      "description": "Reference to parent project"
+    },
+    "name": {
+      "type": "string",
+      "description": "Character name"
+    },
+    "role": {
+      "type": "string",
+      "enum": [
+        "protagonist",
+        "antagonist",
+        "supporting",
+        "minor",
+        "mentor",
+        "love_interest"
+      ],
+      "default": "supporting"
+    },
+    "age": {
+      "type": "string",
+      "description": "Character age or age range"
+    },
+    "appearance": {
+      "type": "string",
+      "description": "Physical description"
+    },
+    "personality_sources": {
+      "type": "array",
+      "description": "Sources used for AI personality generation",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "backstory": {
+      "type": "string"
+    },
+    "core_motivation": {
+      "type": "string"
+    },
+    "fears": {
+      "type": "string"
+    },
+    "speech_patterns": {
+      "type": "string"
+    },
+    "relationships": {
+      "type": "string"
+    },
+    "arc": {
+      "type": "string"
+    },
+    "custom_notes": {
+      "type": "string",
+      "description": "Free-form notes about the character"
+    },
+    "image_url": {
+      "type": "string",
+      "description": "AI-generated portrait URL"
+    },
+    "profile_generated": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether AI profile has been generated"
+    }
+  },
+  "required": [
+    "project_id",
+    "name"
+  ]
+}
